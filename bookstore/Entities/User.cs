@@ -10,10 +10,9 @@ namespace bookstore.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-
         public int RoleId { get; set; }
-
-        //public List<Book> ListOfRentedBooks { get; set; }
-
+       /* public List<Book> ListOfRentedBooks { get; set; }
+        public List<Order> ListOfOrders { get; set; }
+*/
     }
 }

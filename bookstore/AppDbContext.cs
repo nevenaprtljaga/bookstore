@@ -11,7 +11,6 @@ namespace bookstore
         public DbSet<Book> Books { get; set;}
         public DbSet<Role> Roles { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
-        
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { 
             
@@ -20,18 +19,20 @@ namespace bookstore
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<User>(b =>
+            builder.Entity<User>(u =>
             {
-                b.ToTable("User");
-                b.HasKey("Id");
-                b.HasMany<Order>().WithOne().HasForeignKey(o => o.UserId).IsRequired();
+                u.ToTable("User");
+                u.HasKey("Id");
+                u.HasMany<Order>().WithOne().HasForeignKey(o => o.UserId).IsRequired();
+                u.HasMany<Book>().WithOne().HasForeignKey(b => b.UserId).IsRequired();
             });
 
             builder.Entity<Order>(o =>
             {
                 o.ToTable("Order");
                 o.HasKey("Id");
-                
+                o.HasMany<Book>().WithOne().HasForeignKey(o => o.OrderId).IsRequired();
+
             });
 
             builder.Entity<Author>(a =>
@@ -44,8 +45,7 @@ namespace bookstore
             builder.Entity<Book>(b =>
             {
                 b.ToTable("Book");
-                b.HasKey("ISBN");
-               // b.HasMany<Book>().WithMany(b => b.Orders).UsingEntity(i => i.ToTable("BookItem"));
+                b.HasKey("Id");
             });
 
             builder.Entity<Role>(r =>
