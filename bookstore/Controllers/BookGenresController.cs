@@ -2,17 +2,18 @@
 
 namespace bookstore.Controllers
 {
-    public class AuthorsController : Controller
+    public class BookGenresController : Controller
     {
         private readonly AppDbContext _context;
-        public AuthorsController(AppDbContext context) {
+
+        public BookGenresController(AppDbContext context)
+        {
             _context = context;
         }
         public IActionResult Index()
         {
-            var allAuthors = _context.Authors.ToList();
-            return View(allAuthors);
+            var allBookGenres = _context.BookGenres.ToList();
+            return View(allBookGenres);
         }
-
     }
 }

@@ -1,9 +1,9 @@
 ﻿@using bookstore.Entities;
 
-@model IEnumerable<Author>
+@model IEnumerable<BookGenre>
 
 @{
-    ViewData["Title"] = "List of Authors";
+    ViewData["Title"] = "List of Book Genres";
 }
 
 <div class="row">
@@ -12,9 +12,9 @@
             <thead>
                 <tr class="text-center">
                     <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Surname)</th>
-                    <th>@Html.DisplayNameFor(model => model.DateOfBirth)</th>
-                <tr/>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>Actions</th>
+                <tr />
             </thead>
             <tbody>
                 @foreach (var item in Model)
@@ -23,14 +23,17 @@
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Surname)
+                        <td class="align-middle" width="600px" text-align= "justify">
+                            @Html.DisplayFor(modelItem => item.Description)
                         </td>
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                            <a class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i>Edit </a> |
+                            <a class="btn btn-outline-info"><i class="bi bi-eye"></i>Details </a> |
+                            <a class="btn btn-danger"><i class="bi bi-trash"></i>Delete </a>
                         </td>
                     </tr>
                 }
             </tbody>
+        </table>
     </div>
 </div>

@@ -13,31 +13,27 @@
     <Compile Remove="Views\NewFolder1\**" />
     <Compile Remove="Views\NewFolder2\**" />
     <Compile Remove="Views\NewFolder3\**" />
-    <Compile Remove="Views\NewFolder\**" />
     <Content Remove="NewFolder1\**" />
     <Content Remove="NewFolder\**" />
     <Content Remove="Views\NewFolder1\**" />
     <Content Remove="Views\NewFolder2\**" />
     <Content Remove="Views\NewFolder3\**" />
-    <Content Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="NewFolder1\**" />
     <EmbeddedResource Remove="NewFolder\**" />
     <EmbeddedResource Remove="Views\NewFolder1\**" />
     <EmbeddedResource Remove="Views\NewFolder2\**" />
     <EmbeddedResource Remove="Views\NewFolder3\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="NewFolder1\**" />
     <None Remove="NewFolder\**" />
     <None Remove="Views\NewFolder1\**" />
     <None Remove="Views\NewFolder2\**" />
     <None Remove="Views\NewFolder3\**" />
-    <None Remove="Views\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Entities\SeedData.cs" />
     <Compile Remove="Models\Author.cs" />
-    <Compile Remove="Views\Author\Class.cs" />
+    <Compile Remove="Views\Authors\Class.cs" />
   </ItemGroup>
 
   <ItemGroup>
