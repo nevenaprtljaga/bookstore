@@ -8,7 +8,7 @@ namespace bookstore.Entities
         public int Id { get; set; }
         public int TotalPrice { get; set; }
         public DateTime Date { get; set; }
-        /*public List<Book> ListOfBooks { get; set; }*/
+        public List<Book> ListOfBooks { get; set; }
         public int UserId { get; set; }
     }
 }

@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using bookstore.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public BooksController(AppDbContext context)
+        private readonly IBooksService _service;
+        public BooksController(IBooksService service)
         {
-            _context = context;
+            _service = service;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var allBooks = _context.Books.ToList();
+            var allBooks = await _service.GetAll();
             return View(allBooks);
         }
     }

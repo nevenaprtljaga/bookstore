@@ -1,17 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using bookstore.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly AppDbContext _context;
-        public AuthorsController(AppDbContext context) {
-            _context = context;
+        private readonly IAuthorsService _service;
+        public AuthorsController(IAuthorsService service) {
+            _service = service;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var allAuthors = _context.Authors.ToList();
+            var allAuthors = await _service.GetAll();
             return View(allAuthors);
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            return View();
         }
 
     }

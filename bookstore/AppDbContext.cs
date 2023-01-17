@@ -16,22 +16,22 @@ namespace bookstore
             {
                 u.ToTable("User");
                 u.HasKey("Id");
-                u.HasMany<Order>().WithOne().HasForeignKey(o => o.UserId).IsRequired();
-                u.HasMany<Book>().WithOne().HasForeignKey(b => b.UserId).IsRequired(false);
+                //u.HasMany<Order>().WithOne().HasForeignKey(o => o.UserId).IsRequired();
+                //u.HasMany<Book>().WithOne().HasForeignKey(b => b.UserId).IsRequired(false);
             });
 
             builder.Entity<Order>(o =>
             {
                 o.ToTable("Order");
                 o.HasKey("Id");
-                o.HasMany<Book>().WithOne().HasForeignKey(b => b.OrderId).IsRequired(false);
+                //o.HasMany<Book>().WithOne().HasForeignKey(b => b.OrderId).IsRequired(false);
             });
 
             builder.Entity<Author>(a =>
             {
                 a.ToTable("Author");
                 a.HasKey("Id");
-                a.HasMany<Book>().WithOne().HasForeignKey(b => b.AuthorId).IsRequired();
+                //a.HasMany<Book>().WithOne().HasForeignKey(b => b.AuthorId).IsRequired();
             });
 
             builder.Entity<Book>(b =>
@@ -44,14 +44,14 @@ namespace bookstore
             {
                 r.ToTable("Role");
                 r.HasKey("Id");
-                r.HasMany<User>().WithOne().HasForeignKey(u => u.RoleId).IsRequired();
+                //r.HasMany<User>().WithOne().HasForeignKey(u => u.RoleId).IsRequired();
             });
 
             builder.Entity<BookGenre>(bg =>
             {
                 bg.ToTable("BookGenre");
                 bg.HasKey("Id");
-                bg.HasMany<Book>().WithOne().HasForeignKey(b => b.BookGenreId).IsRequired();
+                //bg.HasMany<Book>().WithOne().HasForeignKey(b => b.BookGenreId).IsRequired();
             });
 
         }

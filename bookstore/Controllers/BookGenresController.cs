@@ -1,18 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using bookstore.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Controllers
 {
     public class BookGenresController : Controller
     {
-        private readonly AppDbContext _context;
-
-        public BookGenresController(AppDbContext context)
+        private readonly IBookGenresService _service;
+        public BookGenresController(IBookGenresService service)
         {
-            _context = context;
+            _service = service;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var allBookGenres = _context.BookGenres.ToList();
+            var allBookGenres = await _service.GetAll();
             return View(allBookGenres);
         }
     }

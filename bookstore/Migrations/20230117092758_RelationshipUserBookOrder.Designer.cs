@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bookstore;
 
@@ -11,9 +12,11 @@ using bookstore;
 namespace bookstore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230117092758_RelationshipUserBookOrder")]
+    partial class RelationshipUserBookOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,18 +186,20 @@ namespace bookstore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Entities.Book", b =>
                 {
-                    b.HasOne("bookstore.Entities.Author", "Author")
-                        .WithMany("Books")
+                    b.HasOne("bookstore.Entities.Author", null)
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("bookstore.Entities.BookGenre", "BookGenre")
+                    b.HasOne("bookstore.Entities.BookGenre", null)
                         .WithMany()
                         .HasForeignKey("BookGenreId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -208,10 +213,6 @@ namespace bookstore.Migrations
                         .WithMany("ListOfRentedBooks")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("Author");
-
-                    b.Navigation("BookGenre");
-
                     b.Navigation("User");
                 });
 
@@ -224,9 +225,13 @@ namespace bookstore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("bookstore.Entities.Author", b =>
+            modelBuilder.Entity("bookstore.Entities.User", b =>
                 {
-                    b.Navigation("Books");
+                    b.HasOne("bookstore.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("bookstore.Entities.Order", b =>

@@ -26,13 +26,16 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <img src="@item.ImageURL" width="100%" alt="@item.Title">
+                        <img src="@item.ImageURL" width="100%" height="500px" alt="@item.Title">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <p class="card-text">@item.Price</p>
-                            <p class="card-text"><b>YearOf: </b>@item.YearOfPublication</p>
-                            <p class="card-text"><b>AuthorId: </b>@item.AuthorId</p>
+                            <p class="card-text"><b>Price: </b>@item.Price din.</p>
+                            <p class="card-text"><b>Year of publication: </b>@item.YearOfPublication</p>
+                            <p class="card-text"><b>Author: </b>@item.Author?.Name @item.Author?.Surname</p>
+                            <p class="card-text"><b>Book genre: </b>@item.BookGenre?.Name</p>
+                            <p class="card-text"><b>OrderId: </b>@item.OrderId</p>
+                            <p class="card-text"><b>UserId: </b>@item.UserId</p>
                         </div>
                     </div>
                 </div>
