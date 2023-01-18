@@ -1,4 +1,5 @@
-﻿using bookstore.Services;
+﻿using bookstore.Entities;
+using bookstore.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Controllers
@@ -15,10 +16,22 @@ namespace bookstore.Controllers
             return View(allAuthors);
         }
 
-        public async Task<IActionResult> Create()
-        {
+        public IActionResult Create() {
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Bind("Name,Surname,DateOfBirth")]Author author)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(author);
+            }
+            await _service.AddAsync(author);
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
     }
 }

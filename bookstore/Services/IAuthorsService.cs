@@ -6,7 +6,7 @@ namespace bookstore.Services
     {
         Task<IEnumerable<Author>> GetAll();
         Author GetById(int id);
-        void Add(Author author);
+        Task AddAsync(Author author);
         Author Update(int id, Author newAuthor);
         void Delete(int id);
     }

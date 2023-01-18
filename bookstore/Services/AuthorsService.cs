@@ -10,9 +10,11 @@ namespace bookstore.Services
         {
             _context = context;
         }
-        public void Add(Author author)
+        public async Task AddAsync(Author author)
         {
-            throw new NotImplementedException();
+            await _context.Authors.AddAsync(author);
+            await _context.SaveChangesAsync();
+
         }
 
         public void Delete(int id)
