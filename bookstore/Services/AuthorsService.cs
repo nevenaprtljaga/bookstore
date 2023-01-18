@@ -17,25 +17,30 @@ namespace bookstore.Services
 
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Authors.FirstOrDefaultAsync(n => n.Id == id);
+            _context.Authors.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Author>> GetAll()
+        public async Task<IEnumerable<Author>> GetAllAsync()
         {
             var result = await _context.Authors.ToListAsync();
             return result;
         }
 
-        public Author GetById(int id)
+        public async Task<Author> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Authors.FirstOrDefaultAsync(n => n.Id == id);
+            return result;
         }
 
-        public Author Update(int id, Author newAuthor)
+        public async Task<Author> UpdateAsync(int id, Author newAuthor)
         {
-            throw new NotImplementedException();
+            _context.Update(newAuthor);
+            await _context.SaveChangesAsync();
+            return newAuthor;
         }
     }
 }

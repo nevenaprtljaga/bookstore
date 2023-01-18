@@ -4,10 +4,10 @@ namespace bookstore.Services
 {
     public interface IAuthorsService
     {
-        Task<IEnumerable<Author>> GetAll();
-        Author GetById(int id);
+        Task<IEnumerable<Author>> GetAllAsync();
+        Task<Author> GetByIdAsync(int id);
         Task AddAsync(Author author);
-        Author Update(int id, Author newAuthor);
-        void Delete(int id);
+        Task<Author> UpdateAsync(int id, Author newAuthor);
+        Task DeleteAsync(int id);
     }
 }

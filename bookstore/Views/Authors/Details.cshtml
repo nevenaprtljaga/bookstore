@@ -1,0 +1,39 @@
+﻿@using bookstore.Entities;
+@model Author
+
+@{
+    ViewData["Title"] = "Details for author";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Details for @Model.Name @Model.Surname</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" readonly/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Surname" class="control-label"></label>
+                        <input asp-for="Surname" class="form-control" readonly/>
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" readonly/>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-outline-success float-end" asp-action="Update" asp-route-id="@Model.Id">Update</a>
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</div>
