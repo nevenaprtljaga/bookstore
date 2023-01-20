@@ -1,5 +1,5 @@
 ﻿@using bookstore.Entities;
-@model Author
+@model AuthorsViewModel
 
 @{
     ViewData["Title"] = "Add a new author";
@@ -17,19 +17,19 @@
 
                     </div>
                     <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <label asp-for="Author.Name" class="control-label"></label>
+                        <input asp-for="Author.Name" class="form-control" />
+                        <span asp-validation-for="Author.Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Surname" class="control-label"></label>
-                    <input asp-for="Surname" class="form-control" />
-                    <span asp-validation-for="Surname" class="text-danger"></span>
+                        <label asp-for="Author.Surname" class="control-label"></label>
+                        <input asp-for="Author.Surname" class="form-control" />
+                        <span asp-validation-for="Author.Surname" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="DateOfBirth" class="control-label"></label>
-                    <input asp-for="DateOfBirth" class="form-control" />
-                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        <label asp-for="Author.DateOfBirth" class="control-label"></label>
+                        <input asp-for="Author.DateOfBirth" class="form-control" />
+                        <span asp-validation-for="Author.DateOfBirth" class="text-danger"></span>
                 </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-outline-success float-end" />

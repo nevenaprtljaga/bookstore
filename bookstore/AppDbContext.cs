@@ -12,11 +12,11 @@ namespace bookstore
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<User>(u =>
+            builder.Entity<ApplicationUser>(u =>
             {
                 u.ToTable("User");
                 u.HasKey("Id");
-                //u.HasMany<Order>().WithOne().HasForeignKey(o => o.UserId).IsRequired();
+                u.HasOne<Role>().WithMany().HasForeignKey(u => u.Id).IsRequired();
                 //u.HasMany<Book>().WithOne().HasForeignKey(b => b.UserId).IsRequired(false);
             });
 
@@ -24,6 +24,7 @@ namespace bookstore
             {
                 o.ToTable("Order");
                 o.HasKey("Id");
+                o.HasOne<ApplicationUser>().WithMany().HasForeignKey(o => o.ApplicationUserId).IsRequired();
                 //o.HasMany<Book>().WithOne().HasForeignKey(b => b.OrderId).IsRequired(false);
             });
 
@@ -38,6 +39,10 @@ namespace bookstore
             {
                 b.ToTable("Book");
                 b.HasKey("Id");
+                b.HasOne<Author>().WithMany().HasForeignKey(b => b.AuthorId).IsRequired();
+                b.HasOne<ApplicationUser>().WithMany().HasForeignKey(b => b.ApplicationUserId).IsRequired(false);
+                b.HasOne<Order>().WithMany().HasForeignKey(b => b.OrderId).IsRequired(false);
+                b.HasOne<BookGenre>().WithMany().HasForeignKey(b => b.BookGenreId).IsRequired();
             });
 
             builder.Entity<Role>(r =>
@@ -60,7 +65,7 @@ namespace bookstore
         {
             
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }

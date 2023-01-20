@@ -1,4 +1,5 @@
 ﻿using bookstore.Entities;
+using bookstore.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace bookstore.Services
@@ -23,18 +24,26 @@ namespace bookstore.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<BookGenre>> GetAll()
+        public async Task<IEnumerable<BookGenresViewModel>> GetAll()
         {
+            List<BookGenresViewModel> vm = new List<BookGenresViewModel>();
             var result = await _context.BookGenres.ToListAsync();
-            return result;
+            foreach(var item in result)
+            {
+                vm.Add(new BookGenresViewModel
+                {
+                    BookGenre = item
+                });
+            }
+            return vm;
         }
 
-        public BookGenre GetById(int id)
+        public BookGenresViewModel GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public BookGenre Update(int id, BookGenre newBookGenre)
+        public BookGenresViewModel Update(int id, BookGenre newBookGenre)
         {
             throw new NotImplementedException();
         }

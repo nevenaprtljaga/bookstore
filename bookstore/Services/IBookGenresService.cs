@@ -1,13 +1,14 @@
 ﻿using bookstore.Entities;
+using bookstore.Models;
 
 namespace bookstore.Services
 {
     public interface IBookGenresService
     {
-        Task<IEnumerable<BookGenre>> GetAll();
-        BookGenre GetById(int id);
+        Task<IEnumerable<BookGenresViewModel>> GetAll();
+        BookGenresViewModel GetById(int id);
         void Add(BookGenre bookGenre);
-        BookGenre Update(int id, BookGenre newBookGenre);
+        BookGenresViewModel Update(int id, BookGenre newBookGenre);
         void Delete(int id);
     }
 }

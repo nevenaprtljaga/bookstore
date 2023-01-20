@@ -1,6 +1,6 @@
 ﻿@using bookstore.Entities;
 
-@model IEnumerable<Author>
+@model IEnumerable<AuthorsViewModel>
 
 @{
     ViewData["Title"] = "List of Authors";
@@ -11,9 +11,9 @@
         <table class="table">
             <thead>
                 <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Surname)</th>
-                    <th>@Html.DisplayNameFor(model => model.DateOfBirth)</th>
+                    <th>@Html.DisplayNameFor(model => model.Author.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Author.Surname)</th>
+                    <th>@Html.DisplayNameFor(model => model.Author.DateOfBirth)</th>
                     <th>Actions</th>
                 <tr/>
             </thead>
@@ -22,18 +22,18 @@
                 {
                     <tr class="text-center">
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.Author.Name)
                         </td>
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Surname)
+                            @Html.DisplayFor(modelItem => item.Author.Surname)
                         </td>
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.DateOfBirth)
+                            @Html.DisplayFor(modelItem => item.Author.DateOfBirth)
                         </td>
                         <td class="align-middle">
-                            <a class="btn btn-outline-primary" asp-action="Update" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i>Update </a> |
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details </a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete </a>
+                            <a class="btn btn-outline-primary" asp-action="Update" asp-route-id="@item.Author.Id"><i class="bi bi-pencil-square"></i>Update </a> |
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Author.Id"><i class="bi bi-eye"></i>Details </a> |
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Author.Id"><i class="bi bi-trash"></i>Delete </a>
                         </td>
                     </tr>
                 }
