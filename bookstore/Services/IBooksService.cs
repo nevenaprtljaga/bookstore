@@ -6,9 +6,9 @@ namespace bookstore.Services
     public interface IBooksService
     {
         Task<IEnumerable<BooksViewModel>> GetAll();
-        BooksViewModel GetById(int id);
-        void Add(Book book);
-        BooksViewModel Update(int id, Book newBook);
-        void Delete(int id);
+        Task<BooksViewModel> GetByIdAsync(int id);
+        Task AddAsync(Book book);
+        Task<BooksViewModel> UpdateAsync(int id, Book newBook);
+        Task DeleteAsync(int id);
     }
 }
