@@ -47,6 +47,7 @@ namespace bookstore.Services
 
         public async Task<BookGenresViewModel> UpdateAsync(int id, BookGenre newBookGenre)
         {
+            newBookGenre.Id = id;
             _context.Update(newBookGenre);
             await _context.SaveChangesAsync();
             return new BookGenresViewModel { BookGenre = newBookGenre};

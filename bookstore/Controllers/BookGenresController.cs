@@ -33,6 +33,16 @@ namespace bookstore.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Details(int id)
+        {
+            var bookGenreDetails = await _service.GetByIdAsync(id);
+            if (bookGenreDetails == null)
+            {
+                return View("NotFound");
+            }
+            return View(bookGenreDetails);
+        }
+
         public async Task<IActionResult> Update(int id)
         {
             var bookGenreDetails = await _service.GetByIdAsync(id);
