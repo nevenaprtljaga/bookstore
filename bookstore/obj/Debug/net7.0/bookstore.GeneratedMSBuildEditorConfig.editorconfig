@@ -36,8 +36,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yc1xVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/BookGenres/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0dlbnJlc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/BookGenres/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0dlbnJlc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/BookGenres/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0dlbnJlc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/BookGenres/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0dlbnJlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/BookGenres/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va0dlbnJlc1xVcGRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/U6071498/source/repos/bookstore2/bookstore/bookstore/Views/Books/Index.cshtml]

@@ -6,9 +6,9 @@ namespace bookstore.Services
     public interface IBookGenresService
     {
         Task<IEnumerable<BookGenresViewModel>> GetAll();
-        BookGenresViewModel GetById(int id);
-        void Add(BookGenre bookGenre);
-        BookGenresViewModel Update(int id, BookGenre newBookGenre);
-        void Delete(int id);
+        Task<BookGenresViewModel> GetByIdAsync(int id);
+        Task AddAsync(BookGenre bookGenre);
+        Task<BookGenresViewModel> UpdateAsync(int id, BookGenre newBookGenre);
+        Task DeleteAsync(int id);
     }
 }

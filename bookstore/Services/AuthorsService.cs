@@ -47,7 +47,7 @@ namespace bookstore.Services
 
         public async Task<AuthorsViewModel> UpdateAsync(int id, Author newAuthor)
         {
-            _context.Update(newAuthor);
+            _context.Authors.Update(newAuthor);
             await _context.SaveChangesAsync();
             return new AuthorsViewModel { Author = newAuthor };
         }

@@ -14,14 +14,21 @@ namespace bookstore.Services
             _context = context;
         }
 
-        public void Add(BookGenre bookGenre)
+        public async Task AddAsync(BookGenre bookGenre)
         {
-            throw new NotImplementedException();
+            await _context.BookGenres.AddAsync(bookGenre);
+            await _context.SaveChangesAsync();
         }
-
-        public void Delete(int id)
+        public async Task<BookGenresViewModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.BookGenres.FirstOrDefaultAsync(n => n.Id == id);
+            return new BookGenresViewModel { BookGenre = result };
+        }
+        public async Task DeleteAsync(int id)
+        {
+            var result = await _context.BookGenres.FirstOrDefaultAsync(n => n.Id == id);
+            _context.BookGenres.Remove(result);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<BookGenresViewModel>> GetAll()
@@ -38,14 +45,11 @@ namespace bookstore.Services
             return vm;
         }
 
-        public BookGenresViewModel GetById(int id)
+        public async Task<BookGenresViewModel> UpdateAsync(int id, BookGenre newBookGenre)
         {
-            throw new NotImplementedException();
-        }
-
-        public BookGenresViewModel Update(int id, BookGenre newBookGenre)
-        {
-            throw new NotImplementedException();
+            _context.Update(newBookGenre);
+            await _context.SaveChangesAsync();
+            return new BookGenresViewModel { BookGenre = newBookGenre};
         }
     }
 }

@@ -1,0 +1,36 @@
+﻿@using bookstore.Entities;
+@model BookGenresViewModel
+
+@{
+    ViewData["Title"] = "Delete book genre";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Delete for @Model.BookGenre.Name</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                    <div class="form-group">
+                    <label asp-for="BookGenre.Name" class="control-label"></label>
+                    <input asp-for="BookGenre.Name" class="form-control" readonly />
+                    <span asp-validation-for="BookGenre.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="BookGenre.Description" class="control-label"></label>
+                    <input asp-for="BookGenre.Description" class="form-control" readonly />
+                    <span asp-validation-for="BookGenre.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <form asp-action="Delete">
+                        <input type="hidden" asp-for="BookGenre.Id" />
+                            <input type="submit" value="Confirm" class="btn btn-danger float-end" />
+                        </form>
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</div>
