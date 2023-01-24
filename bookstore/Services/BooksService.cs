@@ -1,7 +1,6 @@
 ﻿using bookstore.Entities;
 using bookstore.Models;
 using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace bookstore.Services
 {
@@ -15,9 +14,19 @@ namespace bookstore.Services
             _context = context;
         }
 
-        public async Task AddAsync(Book book)
+        public async Task AddAsync(NewBookViewModel book)
         {
-            await _context.Books.AddAsync(book);
+
+            var newBook = new Book()
+            {
+                Title = book.Title,
+                ImageURL = book.ImageURL,
+                Price = book.Price,
+                YearOfPublication = book.YearOfPublication,
+                AuthorId = book.AuthorId,
+                BookGenreId = book.BookGenreId
+            };
+            await _context.Books.AddAsync(newBook);
             await _context.SaveChangesAsync();
         }
 
@@ -37,7 +46,7 @@ namespace bookstore.Services
                     ).
                     Where(bwm => bwm.Book.Id == id)
                     .FirstOrDefault();
-            
+
 
             return result;
         }
@@ -67,12 +76,38 @@ namespace bookstore.Services
             return result;
         }
 
-        public async Task<BooksViewModel> UpdateAsync(int id, Book newBook)
+
+        public async Task<BooksViewModel> UpdateAsync(NewBookViewModel data)
         {
-            newBook.Id = id;
-            _context.Update(newBook);
+            var dbBook = await _context.Books.FirstOrDefaultAsync(n => n.Id == data.Id);
+
+            if (dbBook != null)
+            {
+                dbBook.Title = data.Title;
+                dbBook.ImageURL = data.ImageURL;
+                dbBook.Price = data.Price;
+                dbBook.YearOfPublication = data.YearOfPublication;
+                dbBook.AuthorId = data.AuthorId;
+                dbBook.BookGenreId = data.BookGenreId;
+                await _context.SaveChangesAsync();
+            }
+
+
             await _context.SaveChangesAsync();
-            return new BooksViewModel { Book = newBook };
+            return new BooksViewModel { Book = dbBook };
         }
+
+        public async Task<BookDropdownViewModel> GetBookDropdownValues()
+        {
+            var response = new BookDropdownViewModel()
+            {
+                Authors = await _context.Authors.ToListAsync(),
+                BookGenres = await _context.BookGenres.ToListAsync()
+            };
+
+            return response;
+        }
+
+
     }
 }

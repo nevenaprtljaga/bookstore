@@ -1,6 +1,7 @@
-﻿using bookstore.Entities;
+﻿using bookstore.Models;
 using bookstore.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace bookstore.Controllers
 {
@@ -17,18 +18,29 @@ namespace bookstore.Controllers
             return View(allBooks);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var bookDropdownsData = await _service.GetBookDropdownValues();
+
+
+            ViewBag.BookGenres = new SelectList(bookDropdownsData.BookGenres, "Id", "Name");
+            ViewBag.Authors = new SelectList(bookDropdownsData.Authors, "Id", "FullName");
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Book book)
+        public async Task<IActionResult> Create(NewBookViewModel book)
         {
             if (!ModelState.IsValid)
             {
+                var bookDropdownsData = await _service.GetBookDropdownValues();
+
+                ViewBag.BookGenres = new SelectList(bookDropdownsData.BookGenres, "Id", "Name");
+                ViewBag.Authors = new SelectList(bookDropdownsData.Authors, "Id", "FullName");
                 return View(book);
             }
+
             await _service.AddAsync(book);
             return RedirectToAction(nameof(Index));
         }
@@ -46,21 +58,42 @@ namespace bookstore.Controllers
         public async Task<IActionResult> Update(int id)
         {
             var bookDetails = await _service.GetByIdAsync(id);
-            if (bookDetails == null)
+            if (bookDetails == null) return View("NotFound");
+
+            var response = new NewBookViewModel()
             {
-                return View("NotFound");
-            }
-            return View(bookDetails);
+                Id = bookDetails.Book.Id,
+                Title = bookDetails.Book.Title,
+                ImageURL = bookDetails.Book.ImageURL,
+                Price = bookDetails.Book.Price,
+                YearOfPublication = bookDetails.Book.YearOfPublication,
+                AuthorId = bookDetails.Book.AuthorId,
+                BookGenreId = bookDetails.Book.BookGenreId,
+            };
+
+            var bookDropdownsData = await _service.GetBookDropdownValues();
+            ViewBag.Authors = new SelectList(bookDropdownsData.Authors, "Id", "FullName");
+            ViewBag.BookGenres = new SelectList(bookDropdownsData.BookGenres, "Id", "Name");
+
+            return View(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Book book)
+        public async Task<IActionResult> Update(int id, NewBookViewModel book)
         {
+            if (id != book.Id) return View("NotFound");
+
             if (!ModelState.IsValid)
             {
+                var bookDropdownData = await _service.GetBookDropdownValues();
+
+                ViewBag.Authors = new SelectList(bookDropdownData.Authors, "Id", "FullName");
+                ViewBag.BookGenres = new SelectList(bookDropdownData.BookGenres, "Id", "Name");
+
                 return View(book);
             }
-            await _service.UpdateAsync(id, book);
+
+            await _service.UpdateAsync(book);
             return RedirectToAction(nameof(Index));
         }
 

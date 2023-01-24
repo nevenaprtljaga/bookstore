@@ -11,8 +11,7 @@
         <table class="table">
             <thead>
                 <tr class="text-center">
-                    <th>@Html.DisplayNameFor(model => model.Author.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Author.Surname)</th>
+                    <th>@Html.DisplayNameFor(model => model.Author.FullName)</th>
                     <th>@Html.DisplayNameFor(model => model.Author.DateOfBirth)</th>
                     <th>Actions</th>
                 <tr/>
@@ -22,10 +21,7 @@
                 {
                     <tr class="text-center">
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Author.Name)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Author.Surname)
+                            @Html.DisplayFor(modelItem => item.Author.FullName)
                         </td>
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.Author.DateOfBirth)

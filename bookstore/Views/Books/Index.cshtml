@@ -32,7 +32,7 @@
                         <div class="card-body">
                             <p class="card-text"><b>Price: </b>@item.Book.Price din.</p>
                             <p class="card-text"><b>Year of publication: </b>@item.Book.YearOfPublication</p>
-                            <p class="card-text"><b>Author: </b>@item.Author?.Name @item.Author?.Surname</p>
+                            <p class="card-text"><b>Author: </b>@item.Author?.FullName</p>
                             <p class="card-text"><b>Book genre: </b>@item.BookGenre?.Name</p>
                             <p class="card-text"><b>OrderId: </b>@item.Book.OrderId</p>
                             <p class="card-text"><b>UserId: </b>@item.ApplicationUser?.UserName</p>

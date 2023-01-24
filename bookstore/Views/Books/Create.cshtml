@@ -1,38 +1,57 @@
 ﻿@using bookstore.Entities;
-@model BookGenresViewModel
+@model NewBookViewModel
 
 @{
-    ViewData["Title"] = "Add a new book genre";
+    ViewData["Title"] = "Add a new book";
 }
 
 <div class="row text">
     <div class="col-md-8 offset-2">
         <p>
-            <h1>Add a new book genre</h1>
+            <h1>Add a new book</h1>
         </p>
         <div class="row">
             <div class="col-md-8 offset-1">
                 <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                    <label asp-for="BookGenre.Name" class="control-label"></label>
-                        <input asp-for="BookGenre.Name" class="form-control" />
-                        <span asp-validation-for="BookGenre.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                        <label asp-for="BookGenre.Description" class="control-label"></label>
-                        <input asp-for="BookGenre.Description" class="form-control" />
-                        <span asp-validation-for="BookGenre.Description" class="text-danger"></span>
-                </div>
+                        <label asp-for="ImageURL" class="control-label"></label>
+                        <input asp-for="ImageURL" class="form-control" />
+                        <span asp-validation-for="ImageURL" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="YearOfPublication" class="control-label"></label>
+                        <input asp-for="YearOfPublication" class="form-control" />
+                        <span asp-validation-for="YearOfPublication" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AuthorId" class="control-label"></label>
+                        <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.Authors"></select>
+                        <span asp-validation-for="AuthorId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BookGenreId" class="control-label"></label>
+                        <select asp-for="BookGenreId" class="form-control" asp-items="ViewBag.BookGenres"></select>
+                        <span asp-validation-for="BookGenreId" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-outline-success float-end" />
                         <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
                     </div>
+
                 </form>
-                
-                
             </div>
         </div>
     </div>

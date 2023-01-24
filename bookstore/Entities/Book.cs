@@ -15,7 +15,7 @@ namespace bookstore.Entities
         /*    public Author Author { get; set; }*/
         public int? OrderId { get; set; }
         /*       public Order? Order { get; set; }*/
-        public int? BookGenreId { get; set; }
+        public int BookGenreId { get; set; }
         public string? ApplicationUserId { get; set; }
         /*       public ApplicationUser? User { get; set; }*/
     }
