@@ -1,5 +1,4 @@
-﻿using bookstore.Entities;
-using bookstore.Models;
+﻿using bookstore.Models;
 
 namespace bookstore.Services
 {
@@ -7,8 +6,8 @@ namespace bookstore.Services
     {
         Task<IEnumerable<BookGenresViewModel>> GetAll();
         Task<BookGenresViewModel> GetByIdAsync(int id);
-        Task AddAsync(BookGenre bookGenre);
-        Task<BookGenresViewModel> UpdateAsync(int id, BookGenre newBookGenre);
+        Task AddAsync(BookGenresViewModel bookGenreViewModel);
+        Task<BookGenresViewModel> UpdateAsync(int id, BookGenresViewModel bookGenreViewModel);
         Task DeleteAsync(int id);
     }
 }

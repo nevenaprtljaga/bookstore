@@ -14,9 +14,14 @@ namespace bookstore.Services
             _context = context;
         }
 
-        public async Task AddAsync(BookGenre bookGenre)
+        public async Task AddAsync(BookGenresViewModel bookGenreViewModel)
         {
-            await _context.BookGenres.AddAsync(bookGenre);
+            var newBookGenre = new BookGenre()
+            {
+                Name = bookGenreViewModel.BookGenre.Name,
+                Description = bookGenreViewModel.BookGenre.Description
+            };
+            await _context.BookGenres.AddAsync(newBookGenre);
             await _context.SaveChangesAsync();
         }
         public async Task<BookGenresViewModel> GetByIdAsync(int id)
@@ -35,7 +40,7 @@ namespace bookstore.Services
         {
             List<BookGenresViewModel> vm = new List<BookGenresViewModel>();
             var result = await _context.BookGenres.ToListAsync();
-            foreach(var item in result)
+            foreach (var item in result)
             {
                 vm.Add(new BookGenresViewModel
                 {
@@ -45,12 +50,17 @@ namespace bookstore.Services
             return vm;
         }
 
-        public async Task<BookGenresViewModel> UpdateAsync(int id, BookGenre newBookGenre)
+        public async Task<BookGenresViewModel> UpdateAsync(int id, BookGenresViewModel bookGenreViewModel)
         {
-            newBookGenre.Id = id;
+            var newBookGenre = new BookGenre()
+            {
+                Id = id,
+                Name = bookGenreViewModel.BookGenre.Name,
+                Description = bookGenreViewModel.BookGenre.Description
+            };
             _context.Update(newBookGenre);
             await _context.SaveChangesAsync();
-            return new BookGenresViewModel { BookGenre = newBookGenre};
+            return new BookGenresViewModel { BookGenre = newBookGenre };
         }
     }
 }

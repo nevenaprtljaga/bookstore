@@ -1,4 +1,4 @@
-﻿using bookstore.Entities;
+﻿using bookstore.Models;
 using bookstore.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +7,8 @@ namespace bookstore.Controllers
     public class AuthorsController : Controller
     {
         private readonly IAuthorsService _service;
-        public AuthorsController(IAuthorsService service) {
+        public AuthorsController(IAuthorsService service)
+        {
             _service = service;
         }
         public async Task<IActionResult> Index()
@@ -16,25 +17,26 @@ namespace bookstore.Controllers
             return View(allAuthors);
         }
 
-        public IActionResult Create() {
+        public IActionResult Create()
+        {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Author author)
+        public async Task<IActionResult> Create(AuthorsViewModel authorsViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(author);
+                return View(authorsViewModel);
             }
-            await _service.AddAsync(author);
+            await _service.AddAsync(authorsViewModel);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var authorDetails = await _service.GetByIdAsync(id);
-            if(authorDetails == null)
+            if (authorDetails == null)
             {
                 return View("NotFound");
             }
@@ -52,13 +54,13 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, Author author)
+        public async Task<IActionResult> Update(int id, AuthorsViewModel authorsViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(author);
+                return View(authorsViewModel);
             }
-            await _service.UpdateAsync(id, author);
+            await _service.UpdateAsync(id, authorsViewModel);
             return RedirectToAction(nameof(Index));
         }
 

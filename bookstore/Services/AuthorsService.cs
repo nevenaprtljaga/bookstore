@@ -4,16 +4,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace bookstore.Services
 {
-    public class AuthorsService:IAuthorsService
+    public class AuthorsService : IAuthorsService
     {
         private readonly AppDbContext _context;
         public AuthorsService(AppDbContext context)
         {
             _context = context;
         }
-        public async Task AddAsync(Author author)
+        public async Task AddAsync(AuthorsViewModel authorsViewModel)
         {
-            await _context.Authors.AddAsync(author);
+            var newAuthor = new Author()
+            {
+                FullName = authorsViewModel.Author.FullName,
+                DateOfBirth = authorsViewModel.Author.DateOfBirth
+            };
+            await _context.Authors.AddAsync(newAuthor);
             await _context.SaveChangesAsync();
 
         }
@@ -45,9 +50,14 @@ namespace bookstore.Services
             return new AuthorsViewModel { Author = result };
         }
 
-        public async Task<AuthorsViewModel> UpdateAsync(int id, Author newAuthor)
+        public async Task<AuthorsViewModel> UpdateAsync(int id, AuthorsViewModel authorsViewModel)
         {
-            newAuthor.Id = id;
+            var newAuthor = new Author()
+            {
+                Id = id,
+                FullName = authorsViewModel.Author.FullName,
+                DateOfBirth = authorsViewModel.Author.DateOfBirth
+            };
             _context.Authors.Update(newAuthor);
             await _context.SaveChangesAsync();
             return new AuthorsViewModel { Author = newAuthor };

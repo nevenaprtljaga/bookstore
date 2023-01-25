@@ -1,4 +1,4 @@
-﻿using bookstore.Entities;
+﻿using bookstore.Models;
 using bookstore.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,13 +23,13 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BookGenre bookGenre)
+        public async Task<IActionResult> Create(BookGenresViewModel bookGenreViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(bookGenre);
+                return View(bookGenreViewModel);
             }
-            await _service.AddAsync(bookGenre);
+            await _service.AddAsync(bookGenreViewModel);
             return RedirectToAction(nameof(Index));
         }
 
@@ -54,13 +54,13 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id, BookGenre bookGenre)
+        public async Task<IActionResult> Update(int id, BookGenresViewModel bookGenreViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(bookGenre);
+                return View(bookGenreViewModel);
             }
-            await _service.UpdateAsync(id, bookGenre);
+            await _service.UpdateAsync(id, bookGenreViewModel);
             return RedirectToAction(nameof(Index));
         }
 

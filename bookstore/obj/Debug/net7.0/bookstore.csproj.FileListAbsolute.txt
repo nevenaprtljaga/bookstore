@@ -148,3 +148,4 @@ C:\Users\U6071498\source\repos\bookstore2\bookstore\bookstore\obj\Debug\net7.0\r
 C:\Users\U6071498\source\repos\bookstore2\bookstore\bookstore\obj\Debug\net7.0\bookstore.pdb
 C:\Users\U6071498\source\repos\bookstore2\bookstore\bookstore\obj\Debug\net7.0\bookstore.genruntimeconfig.cache
 C:\Users\U6071498\source\repos\bookstore2\bookstore\bookstore\obj\Debug\net7.0\ref\bookstore.dll
+C:\Users\U6071498\source\repos\bookstore2\bookstore\bookstore\bin\Debug\net7.0\libman.json

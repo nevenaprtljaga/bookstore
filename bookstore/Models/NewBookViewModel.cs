@@ -1,5 +1,4 @@
-﻿using bookstore.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace bookstore.Models
 {
@@ -23,7 +22,6 @@ namespace bookstore.Models
         [Required(ErrorMessage = "Year is required")]
         public int YearOfPublication { get; set; }
 
-        //Relationships
         [Display(Name = "Select author")]
         [Required(ErrorMessage = "Book author is required")]
         public int AuthorId { get; set; }
