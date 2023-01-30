@@ -4,36 +4,34 @@ namespace bookstore.Entities
 {
     public class SeedData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static void Seed(IServiceProvider serviceProvider)
         {
             using (var context = new AppDbContext(
-                serviceProvider.GetRequiredService<
-                    DbContextOptions<AppDbContext>>()))
+                 serviceProvider.GetRequiredService<
+                     DbContextOptions<AppDbContext>>()))
             {
-                // Look for any movies.
-                if (context.Authors.Any())
+                if (context.Roles.Any())
                 {
-                    return;   // DB has been seeded
+                    return;
                 }
-                context.Authors.AddRange(
-                    new Author
+
+                context.Roles.AddRange(
+
+                    new Role
                     {
-                        Name = "Fredrik",
-                        Surname = "Backman",
-                        DateOfBirth = DateTime.Parse("1981-6-2")
+                        Name = "Admin",
+
                     },
-                    new Author
-                    {
-                        Name = "Lev",
-                        Surname = "Tolstoy",
-                        DateOfBirth = DateTime.Parse("1828-9-9")
-                    },
-                    new Author
-                    {
-                        Name = "Oscar",
-                        Surname = "Wilde",
-                        DateOfBirth = DateTime.Parse("1854-10-16")
-                    }
+                     new Role
+                     {
+                         Name = "Customer",
+
+                     }, new Role
+                     {
+                         Name = "Librarian",
+
+                     }
+
                 );
                 context.SaveChanges();
             }

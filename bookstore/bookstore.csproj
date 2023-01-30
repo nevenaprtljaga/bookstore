@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\SeedData.cs" />
+    <Compile Remove="Entities\SeedData1.cs" />
     <Compile Remove="Models\Author.cs" />
     <Compile Remove="Views\Authors\Class.cs" />
   </ItemGroup>
@@ -66,6 +66,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
   </ItemGroup>
 
 </Project>

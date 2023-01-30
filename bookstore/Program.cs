@@ -1,4 +1,5 @@
 using bookstore;
+using bookstore.Entities;
 using bookstore.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +13,9 @@ builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBookGenresService, BookGenresService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -29,9 +29,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Seed(services);
+}
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

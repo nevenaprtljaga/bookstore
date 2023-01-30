@@ -1,12 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace bookstore.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-       
-
+        public string FullName { get; set; }
     }
 }

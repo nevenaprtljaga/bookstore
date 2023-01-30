@@ -4,6 +4,6 @@ namespace bookstore.Entities
 {
     public class Role : IdentityRole
     {
-      
+
     }
 }
