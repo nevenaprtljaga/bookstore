@@ -10,18 +10,20 @@ namespace bookstore.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly AppDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Users()
         {
-            var users = await _context.Users.ToListAsync();
+            var users = await _userManager.Users.ToListAsync();
             return View(users);
         }
 
@@ -77,18 +79,27 @@ namespace bookstore.Controllers
                 return View(registerViewModel);
             }
 
+
+            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Customer"));
+
+
             var newUser = new ApplicationUser()
             {
                 FullName = registerViewModel.FullName,
                 Email = registerViewModel.EmailAddress,
-                UserName = registerViewModel.EmailAddress
+                UserName = registerViewModel.EmailAddress,
+
             };
 
             var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
-            /*   if (newUserResponse.Succeeded)
-               {
-                   await _userManager.AddToRoleAsync(newUser)
-               }*/
+
+
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(newUser, new[] { role.Name });
+            }
+            _context.SaveChanges();
+
             return View("RegisterCompleted");
         }
 

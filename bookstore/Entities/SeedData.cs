@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*using Microsoft.EntityFrameworkCore;
 
 namespace bookstore.Entities
 {
@@ -38,3 +38,4 @@ namespace bookstore.Entities
         }
     }
 }
+*/

@@ -13,9 +13,13 @@ builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBookGenresService, BookGenresService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
+//builder.Services.AddScoped<IUsersService, UsersService>();
 
-
+builder.Services.AddIdentity<ApplicationUser, Role>(config =>
+{
+    config.User.RequireUniqueEmail = true;
+})
+    .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
@@ -37,7 +41,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    SeedData.Seed(services);
+    //SeedData.Seed(services);
 }
 app.MapControllerRoute(
     name: "default",
