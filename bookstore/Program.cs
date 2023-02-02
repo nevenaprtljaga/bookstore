@@ -13,7 +13,7 @@ builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBookGenresService, BookGenresService>();
-//builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 builder.Services.AddIdentity<ApplicationUser, Role>(config =>
 {

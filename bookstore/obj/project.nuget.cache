@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "MJySoJLcbZqUu3CZ0rzfDM2PwtoiC1q5tXqwrGM5iUNAb+x6S9IK877HYu/DXRyKLpPtlnrm3tbIt4dfpBdC0w==",
+  "dgSpecHash": "MU46EBT+yTXKbWT6W1l4ZZzhIplFXtd74JOOsZBTiO1KSu7eD6f3Agp+l6SiFwgI2ITvC+4MKHBnStkM5B10Ug==",
   "success": true,
   "projectFilePath": "C:\\Users\\U6071498\\source\\repos\\bookstore2\\bookstore\\bookstore\\bookstore.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\U6071498\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\U6071498\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\U6071498\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\U6071498\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

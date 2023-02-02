@@ -1,8 +1,10 @@
 ﻿using bookstore.Entities;
 using bookstore.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace bookstore.Controllers
 {
@@ -12,13 +14,15 @@ namespace bookstore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
+        public AccountController(/*IMapper mapper,*/ UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _roleManager = roleManager;
+            //  _mapper = mapper;
         }
 
         public async Task<IActionResult> Users()
@@ -26,14 +30,16 @@ namespace bookstore.Controllers
             var users = await _userManager.Users.ToListAsync();
             return View(users);
         }
-
-        public IActionResult Login()
+        [HttpGet]
+        public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel());
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -41,22 +47,26 @@ namespace bookstore.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(loginViewModel.EmailAddress);
-            if (user != null)
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginViewModel.Password))
             {
-                var passwordCheck = await _userManager.CheckPasswordAsync(user, loginViewModel.Password);
-                if (passwordCheck)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Books");
-                    }
-                }
+                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                    new ClaimsPrincipal(identity));
+                return RedirectToAction("Index", "Users");//ovde treba napraviti ako je admin role da ide na users, ako ne da ide tipa na books nmp
+            }
+            /*  var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
+              if (result.Succeeded)
+              {
+                  return RedirectToLocal(returnUrl);
+              }*/
+            else
+            {
+                ModelState.AddModelError("", "Invalid username or password");
+                return View(loginViewModel);
 
             }
-            TempData["Error"] = "Wrong credentials. Try again";
-            return View(loginViewModel);
-
         }
 
         public IActionResult Register()
@@ -80,7 +90,7 @@ namespace bookstore.Controllers
             }
 
 
-            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Customer"));
+            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Admin"));
 
 
             var newUser = new ApplicationUser()
@@ -107,7 +117,7 @@ namespace bookstore.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult AccessDenied(string ReturnUrl)
