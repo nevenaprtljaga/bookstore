@@ -1,4 +1,4 @@
-﻿/*using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace bookstore.Entities
 {
@@ -10,18 +10,18 @@ namespace bookstore.Entities
                  serviceProvider.GetRequiredService<
                      DbContextOptions<AppDbContext>>()))
             {
-                if (context.Roles.Any())
-                {
-                    return;
-                }
-
+                /*    if (context.Roles.Any())
+                    {
+                        return;
+                    }
+    */
                 context.Roles.AddRange(
 
                     new Role
                     {
-                        Name = "Admin",
+                        Name = "Proba",
 
-                    },
+                    }/*,
                      new Role
                      {
                          Name = "Customer",
@@ -30,7 +30,7 @@ namespace bookstore.Entities
                      {
                          Name = "Librarian",
 
-                     }
+                     }*/
 
                 );
                 context.SaveChanges();
@@ -38,4 +38,3 @@ namespace bookstore.Entities
         }
     }
 }
-*/

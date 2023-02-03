@@ -14,15 +14,14 @@ namespace bookstore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
 
-        public AccountController(/*IMapper mapper,*/ UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
             _roleManager = roleManager;
-            //  _mapper = mapper;
         }
 
         public async Task<IActionResult> Users()
@@ -49,18 +48,29 @@ namespace bookstore.Controllers
             var user = await _userManager.FindByEmailAsync(loginViewModel.EmailAddress);
             if (user != null && await _userManager.CheckPasswordAsync(user, loginViewModel.Password))
             {
+
                 var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
-                return RedirectToAction("Index", "Users");//ovde treba napraviti ako je admin role da ide na users, ako ne da ide tipa na books nmp
+                var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
+
+                if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Users");
+                }
+                else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Customer"))
+                {
+                    return RedirectToAction("Index", "Books");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Authors");
+                }
+
             }
-            /*  var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
-              if (result.Succeeded)
-              {
-                  return RedirectToLocal(returnUrl);
-              }*/
+
             else
             {
                 ModelState.AddModelError("", "Invalid username or password");
@@ -88,9 +98,9 @@ namespace bookstore.Controllers
                 TempData["Error"] = "This email address is already registered.";
                 return View(registerViewModel);
             }
+            //_userManager.Users.All
 
-
-            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Admin"));
+            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Customer"));
 
 
             var newUser = new ApplicationUser()

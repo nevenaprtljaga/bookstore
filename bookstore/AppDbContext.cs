@@ -1,5 +1,4 @@
 ﻿using bookstore.Entities;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,6 +70,43 @@ namespace bookstore
             {
                 b.HasKey(r => new { r.UserId, r.RoleId }); b.ToTable("AccountRole");
             });
+
+            builder.Entity<ApplicationUserClaim>(b =>
+            {
+                b.HasKey(uc => uc.Id);
+
+                b.ToTable("AccountClaim");
+            });
+
+            builder.Entity<ApplicationUserLogin>(b =>
+            {
+                b.HasKey(l => new { l.LoginProvider, l.ProviderKey });
+
+                b.Property(l => l.LoginProvider).HasMaxLength(128);
+                b.Property(l => l.ProviderKey).HasMaxLength(128);
+
+                b.ToTable("AccountLogin");
+            });
+
+            builder.Entity<ApplicationUserToken>(b =>
+            {
+                b.HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+
+                b.Property(t => t.LoginProvider).HasMaxLength(255);
+                b.Property(t => t.Name).HasMaxLength(255);
+
+                b.ToTable("AccountToken");
+            });
+
+
+            builder.Entity<ApplicationRoleClaim>(b =>
+            {
+                b.HasKey(rc => rc.Id);
+
+                b.ToTable("RoleClaim");
+            });
+
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

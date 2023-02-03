@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Identity
+namespace bookstore.Entities
 {
     public class ApplicationUserClaim : IdentityUserClaim<string>
     {

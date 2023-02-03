@@ -39,6 +39,13 @@
                         </td>
                     </tr>
                 }
+                <h2>Claim details</h2>
+                <ul>
+                    @foreach (var claim in User.Claims)
+                    {
+                        <li><strong>@claim.Type</strong>: @claim.Value</li>
+                    }
+                </ul>
             </tbody>
         </table>
     </div>

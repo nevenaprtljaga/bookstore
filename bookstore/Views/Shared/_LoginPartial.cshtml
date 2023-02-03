@@ -8,7 +8,7 @@
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"
-           title="Welcome">Welcome @User.Identity.Name!</a>
+           title="Welcome">Welcome @User.Identity.Name! @User.IsInRole("Admin")</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-controller="Account" asp-action="Logout">
