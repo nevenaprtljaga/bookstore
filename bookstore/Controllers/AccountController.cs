@@ -3,7 +3,6 @@ using bookstore.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace bookstore.Controllers
@@ -14,8 +13,6 @@ namespace bookstore.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly AppDbContext _context;
-
-
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<Role> roleManager, AppDbContext context)
         {
             _userManager = userManager;
@@ -24,13 +21,8 @@ namespace bookstore.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Users()
-        {
-            var users = await _userManager.Users.ToListAsync();
-            return View(users);
-        }
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -54,6 +46,10 @@ namespace bookstore.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
+
+
+
+
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
 
                 if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
@@ -68,12 +64,10 @@ namespace bookstore.Controllers
                 {
                     return RedirectToAction("Index", "Authors");
                 }
-
             }
-
             else
             {
-                ModelState.AddModelError("", "Invalid username or password");
+                ModelState.AddModelError("", "Invalid username or password.");
                 return View(loginViewModel);
 
             }
@@ -87,10 +81,7 @@ namespace bookstore.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(registerViewModel);
-            }
+
 
             var user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
             if (user != null)
@@ -98,7 +89,11 @@ namespace bookstore.Controllers
                 TempData["Error"] = "This email address is already registered.";
                 return View(registerViewModel);
             }
-            //_userManager.Users.All
+
+            if (!ModelState.IsValid)
+            {
+                return View(registerViewModel);
+            }
 
             var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Customer"));
 
@@ -107,7 +102,8 @@ namespace bookstore.Controllers
             {
                 FullName = registerViewModel.FullName,
                 Email = registerViewModel.EmailAddress,
-                UserName = registerViewModel.EmailAddress,
+                UserName = registerViewModel.UserName,
+                PhoneNumber = registerViewModel.PhoneNumber,
 
             };
 
@@ -117,6 +113,11 @@ namespace bookstore.Controllers
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRolesAsync(newUser, new[] { role.Name });
+            }
+            else
+            {
+                TempData["Error"] = string.Join(" \n", newUserResponse.Errors.Select(x => x.Description)); //probala Environment.NewLine, <br/>, \n, \\n sta god, nece da napravi novu liniju
+                return View(registerViewModel);
             }
             _context.SaveChanges();
 

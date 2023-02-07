@@ -1,0 +1,41 @@
+﻿@model UsersViewModel
+
+@{
+    ViewData["Title"] = "Details for user";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Details for @Model.ApplicationUser.FullName</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.FullName" class="control-label"></label>
+                    <input asp-for="ApplicationUser.FullName" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.UserName" class="control-label"></label>
+                    <input asp-for="ApplicationUser.UserName" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.Email" class="control-label"></label>
+                    <input asp-for="ApplicationUser.Email" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
+                </div>
+                  <div class="form-group">
+                    <label asp-for="ApplicationUser.PhoneNumber" class="control-label"></label>
+                    <input asp-for="ApplicationUser.PhoneNumber" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-outline-success float-end" asp-action="Update" asp-route-id="@Model.ApplicationUser.Id">Update</a>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

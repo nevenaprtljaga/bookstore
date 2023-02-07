@@ -12,7 +12,7 @@
                     <th>@Html.DisplayNameFor(model => model.ApplicationUser.FullName)</th>
                     <th>@Html.DisplayNameFor(model => model.ApplicationUser.Email)</th>
                     <th>@Html.DisplayNameFor(model => model.ApplicationUser.PhoneNumber)</th>
-                    <th>@Html.DisplayNameFor(model => model.ApplicationUser.PasswordHash)</th>
+                    <th>@Html.DisplayNameFor(model => model.ApplicationUser.UserName)</th> @*treba da prikaze i rolu usera, da bi mogao admin i to da menja*@
                     <th>Actions</th>
                 <tr />
             </thead>
@@ -30,11 +30,12 @@
                             @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
                         </td>
                         <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.ApplicationUser.PasswordHash)
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
                         </td>
                         <td class="align-middle">
                             <a class="btn btn-outline-primary" asp-action="Update" asp-route-id="@item.ApplicationUser.Id"><i class="bi bi-pencil-square"></i>Update </a> |
-                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ApplicationUser.Id"><i class="bi bi-eye"></i>Details </a> |
+                           <a class="btn btn-outline-primary" asp-action="UpdateUserRoles" asp-route-id="@item.ApplicationUser.Id"><i class="bi bi-pencil-square"></i>Update user roles</a> |
+                           <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ApplicationUser.Id"><i class="bi bi-eye"></i>Details </a> |
                             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ApplicationUser.Id"><i class="bi bi-trash"></i>Delete </a>
                         </td>
                     </tr>
