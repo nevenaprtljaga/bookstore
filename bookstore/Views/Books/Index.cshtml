@@ -11,14 +11,14 @@
             <div class="card mb-3" style="max-width: 540px">
                 <div class="row g-0">
                     <div class="col-md-12">
-                        <div class="card-header text-white bg-info">
+                        <div class="card-header text-white" id="card-header-color">
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Book.Title
-                                  @*  @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                                    {*@
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
+                                    {
                                         <a class="text-white float-right" asp-action="Update" asp-route-id="@item.Book.Id"><i class="bi bi-pencil-square"></i></a>
-                                    @*}*@
+                                    }
                                 </h5>
                             </p>
                         </div>

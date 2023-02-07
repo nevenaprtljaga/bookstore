@@ -14,6 +14,7 @@ builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBookGenresService, BookGenresService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.ConfigureApplicationCookie(o => o.LoginPath = "/Authentication/Login");
 
 builder.Services.AddIdentity<ApplicationUser, Role>(config =>

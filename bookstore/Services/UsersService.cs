@@ -9,32 +9,48 @@ namespace bookstore.Services
     {
         private readonly AppDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public UsersService(AppDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly RoleManager<Role> _roleManager;
+        public UsersService(AppDbContext context, UserManager<ApplicationUser> userManager, RoleManager<Role> roleManager)
         {
             _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
-        /*  public async Task AddAsync(UsersViewModel usersViewModel)
-          {
-              var newUser = new ApplicationUser()
-              {
-                  UserName = usersViewModel.ApplicationUser.UserName,
-                  FullName = usersViewModel.ApplicationUser.FullName,
-                  Email = usersViewModel.ApplicationUser.Email,
-                  PhoneNumber = usersViewModel.ApplicationUser.PhoneNumber
-              };
-              await _userManager.Users.AddAsync(newUser);
-              await _userManager.SaveChangesAsync();
+        public async Task<UsersViewModel> AddAsync(UsersViewModel usersViewModel)
+        {
+            var role = _roleManager.Roles.FirstOrDefault((n => n.Name == "Customer"));
+            var user = new ApplicationUser()
+            {
+                UserName = usersViewModel.ApplicationUser.UserName,
+                FullName = usersViewModel.ApplicationUser.FullName,
+                Email = usersViewModel.ApplicationUser.Email,
+                PhoneNumber = usersViewModel.ApplicationUser.PhoneNumber
 
-          }
+            };
+            string pass = randomPass(user);
+            var newUserResponse = await _userManager.CreateAsync(user, pass);
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRolesAsync(user, new[] { role.Name });//ovo iz nekog razloga ne radi
+            }
+            return new UsersViewModel { ApplicationUser = user };
+        }
+        public string randomPass(ApplicationUser ApplicationUser)
+        {//username prvo veliko slovo + @ + prve tri cifre broja telefona   Nevenap@123
+            return ApplicationUser.UserName.ToUpper().Substring(0, 1) + ApplicationUser.UserName.Substring(1) + "@" + ApplicationUser.PhoneNumber.ToString().Substring(0, 3);
+        }
+        public async Task<string> DeleteAsync(string userId)
+        {
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == userId);
+            return user != null ? await DeleteUserAsync(user) : "success";
+        }
 
-          public async Task DeleteAsync(string id)
-          {
-              var result = await _userManager.Users.FirstOrDefaultAsync(n => n.Id == id);
-              _context.Users.Remove(result);
-              await _userManager.SaveChangesAsync();
-          }
-  */
+        public async Task<string> DeleteUserAsync(ApplicationUser user)
+        {
+            var result = await _userManager.DeleteAsync(user);
+            return result.ToString();
+        }
+
         public async Task<IEnumerable<UsersViewModel>> GetAllAsync()
         {
             List<UsersViewModel> vm = new List<UsersViewModel>();
@@ -69,19 +85,17 @@ namespace bookstore.Services
             return new UsersViewModel { ApplicationUser = result };
         }
 
-        /*     public async Task<UsersViewModel> UpdateAsync(string id, UsersViewModel usersViewModel)
-             {
-                 var newUser = new ApplicationUser()
-                 {
-                     Id = id,
-                     UserName = usersViewModel.ApplicationUser.UserName,
-                     FullName = usersViewModel.ApplicationUser.FullName,
-                     Email = usersViewModel.ApplicationUser.Email,
-                     PhoneNumber = usersViewModel.ApplicationUser.PhoneNumber
-                 };
-                 _userManager.Users.Update(newUser);
-                 await _userManager.SaveChangesAsync();
-                 return new UsersViewModel { ApplicationUser = newUser };
-             }*/
+        public async Task<UsersViewModel> UpdateAsync(string id, UsersViewModel usersViewModel)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            user.UserName = usersViewModel.ApplicationUser.UserName;
+            user.FullName = usersViewModel.ApplicationUser.FullName;
+            user.Email = usersViewModel.ApplicationUser.Email;
+            user.PhoneNumber = usersViewModel.ApplicationUser.PhoneNumber;
+            user.EmailConfirmed = usersViewModel.ApplicationUser.EmailConfirmed;
+
+            await _userManager.UpdateAsync(user);
+            return new UsersViewModel { ApplicationUser = user };
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using bookstore.Models;
 using bookstore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -54,7 +55,7 @@ namespace bookstore.Controllers
             }
             return View(bookDetails);
         }
-
+        [Authorize]
         public async Task<IActionResult> Update(int id)
         {
             var bookDetails = await _service.GetByIdAsync(id);

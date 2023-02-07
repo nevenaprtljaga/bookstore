@@ -1,16 +1,31 @@
 ﻿@model UpdateUserRolesViewModel
 
-<form asp-action="UpdateUserRoles">
-    <input type="hidden" asp-for="UserId" />
-    <div class="form-group">
-        <label asp-for="SelectedRoleIds">Roles:</label>
-        <select asp-for="SelectedRoleIds">
-            <option value="">--Select a role--</option>
-           @* @foreach (var role in Model.AllRoles)
-            {
-                    <option value="@role.Id">@role.Name</option>
-            }*@
-        </select>
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Update roles of user</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <form asp-action="UpdateUserRoles">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserId"/>
+                    <div class="form-group">
+                        <label asp-for="SelectedRoleIds" class="control-label">Roles:</label>
+                        <select asp-for="SelectedRoleIds" class="form-control">
+                            <option value="">--Select a role--</option>
+                                @* @foreach (var role in Model.AllRoles)
+                                    {
+                                        <option value="@role.Id">@role.Name</option>
+                                    }*@
+                        </select>
+                    </div>
+                    <input class="btn btn-outline-success float-end" type="submit" value="Update" />
+                </form>
+            </div>
+        </div>
     </div>
-    <button type="submit">Update</button>
-</form>
+</div>
+
+  

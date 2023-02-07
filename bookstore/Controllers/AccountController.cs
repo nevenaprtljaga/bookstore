@@ -46,15 +46,15 @@ namespace bookstore.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
-
-
-
-
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
 
                 if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
                 {
                     return RedirectToAction("Index", "Users");
+                }
+                else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Librarian"))
+                {
+                    return RedirectToAction("Index", "Authors");
                 }
                 else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Customer"))
                 {
@@ -62,7 +62,7 @@ namespace bookstore.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Authors");
+                    return RedirectToAction("Index", "BookGenres");
                 }
             }
             else
@@ -108,8 +108,6 @@ namespace bookstore.Controllers
             };
 
             var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
-
-
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRolesAsync(newUser, new[] { role.Name });

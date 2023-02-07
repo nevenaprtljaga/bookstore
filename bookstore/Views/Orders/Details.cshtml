@@ -1,0 +1,30 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewData["Title"] = "Details for order";
+}
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Details for Order with ID = @Model.Order.Id</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <div class="form-group">
+                    <label asp-for="Order.Date" class="control-label"></label>
+                    <input asp-for="Order.Date" class="form-control" readonly />
+                    <span asp-validation-for="Order.Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Order.ApplicationUserId" class="control-label"></label>
+                    <input asp-for="Order.ApplicationUserId" class="form-control" readonly />
+                    <span asp-validation-for="Order.ApplicationUserId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                   <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

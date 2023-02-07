@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model UsersViewModel
+
 @{
+    ViewData["Title"] = "Delete user";
 }
+
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1>Delete for @Model.ApplicationUser.FullName</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-1">
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.FullName" class="control-label"></label>
+                    <input asp-for="ApplicationUser.FullName" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.Email" class="control-label"></label>
+                    <input asp-for="ApplicationUser.Email" class="form-control" readonly />
+                    <span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <form asp-action="Delete">
+                        <input type="hidden" asp-for="ApplicationUser.Id" />
+                        <input type="submit" value="Confirm" class="btn btn-danger float-end" />
+                    </form>
+                    <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

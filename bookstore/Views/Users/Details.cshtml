@@ -26,10 +26,15 @@
                     <input asp-for="ApplicationUser.Email" class="form-control" readonly />
                     <span asp-validation-for="ApplicationUser.Email" class="text-danger"></span>
                 </div>
-                  <div class="form-group">
+                <div class="form-group">
                     <label asp-for="ApplicationUser.PhoneNumber" class="control-label"></label>
                     <input asp-for="ApplicationUser.PhoneNumber" class="form-control" readonly />
                     <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ApplicationUser.EmailConfirmed" class="control-label"></label>
+                    <input type="checkbox" asp-for="ApplicationUser.EmailConfirmed" class="form-check" readonly onclick="event.preventDefault();"/>
+                    <span asp-validation-for="ApplicationUser.EmailConfirmed" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <a class="btn btn-outline-success float-end" asp-action="Update" asp-route-id="@Model.ApplicationUser.Id">Update</a>

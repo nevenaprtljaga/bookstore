@@ -17,20 +17,20 @@ namespace bookstore.Entities
     */
                 context.Roles.AddRange(
 
+                /*   new Role
+                   {
+                       Name = "Proba",
+
+                   },
                     new Role
                     {
-                        Name = "Proba",
+                        Name = "Customer",
 
-                    }/*,
-                     new Role
-                     {
-                         Name = "Customer",
+                    }, new Role
+                    {
+                        Name = "Librarian",
 
-                     }, new Role
-                     {
-                         Name = "Librarian",
-
-                     }*/
+                    }*/
 
                 );
                 context.SaveChanges();
