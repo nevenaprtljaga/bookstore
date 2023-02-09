@@ -46,7 +46,7 @@ namespace bookstore.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
-                var result = await _signInManager.PasswordSignInAsync(loginViewModel.EmailAddress, loginViewModel.Password, loginViewModel.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, false);
 
                 if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
                 {
@@ -104,7 +104,6 @@ namespace bookstore.Controllers
                 Email = registerViewModel.EmailAddress,
                 UserName = registerViewModel.UserName,
                 PhoneNumber = registerViewModel.PhoneNumber,
-
             };
 
             var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
@@ -114,7 +113,7 @@ namespace bookstore.Controllers
             }
             else
             {
-                TempData["Error"] = string.Join(" \n", newUserResponse.Errors.Select(x => x.Description)); //probala Environment.NewLine, <br/>, \n, \\n sta god, nece da napravi novu liniju
+                TempData["Error"] = string.Join("\t\n", newUserResponse.Errors.Select(x => x.Description)); //probala Environment.NewLine, <br/>, \n, \\n sta god, nece da napravi novu liniju
                 return View(registerViewModel);
             }
             _context.SaveChanges();

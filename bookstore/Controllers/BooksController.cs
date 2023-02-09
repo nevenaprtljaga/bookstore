@@ -13,12 +13,13 @@ namespace bookstore.Controllers
         {
             _service = service;
         }
+
         public async Task<IActionResult> Index()
         {
             var allBooks = await _service.GetAll();
             return View(allBooks);
         }
-
+        [Authorize(Roles = "Librarian")]
         public async Task<IActionResult> Create()
         {
             var bookDropdownsData = await _service.GetBookDropdownValues();
@@ -55,7 +56,7 @@ namespace bookstore.Controllers
             }
             return View(bookDetails);
         }
-        [Authorize]
+        [Authorize(Roles = "Librarian")]
         public async Task<IActionResult> Update(int id)
         {
             var bookDetails = await _service.GetByIdAsync(id);
@@ -97,7 +98,7 @@ namespace bookstore.Controllers
             await _service.UpdateAsync(book);
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Librarian")]
         public async Task<IActionResult> Delete(int id)
         {
             var bookGenreDetails = await _service.GetByIdAsync(id);

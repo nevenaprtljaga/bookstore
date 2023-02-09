@@ -31,7 +31,7 @@ namespace bookstore.Services
             var newUserResponse = await _userManager.CreateAsync(user, pass);
             if (newUserResponse.Succeeded)
             {
-                await _userManager.AddToRolesAsync(user, new[] { role.Name });//ovo iz nekog razloga ne radi
+                await _userManager.AddToRolesAsync(user, new[] { role.Name });
             }
             return new UsersViewModel { ApplicationUser = user };
         }
@@ -55,27 +55,46 @@ namespace bookstore.Services
         {
             List<UsersViewModel> vm = new List<UsersViewModel>();
             var result = await _userManager.Users.ToListAsync();
+
+
             foreach (var item in result)
             {
+                var currentRoles = await _userManager.GetRolesAsync(item);
                 vm.Add(new UsersViewModel
                 {
-                    ApplicationUser = item
+                    ApplicationUser = item,
+                    ListOfRoles = string.Join(", ", currentRoles)
                 });
             }
+
+
+
             return vm;
         }
 
-        public async Task<IEnumerable<RolesViewModel>> GetAllRoles()
+        public async Task<IEnumerable<Role>> GetAllRoles()
         {
             List<RolesViewModel> vm = new List<RolesViewModel>();
             var result = await _context.Roles.ToListAsync();
-            foreach (var item in result)
-            {
-                vm.Add(new RolesViewModel
-                {
-                    Role = item
-                });
-            }
+            /*   foreach (var item in result)
+               {
+                   vm.Add(new RolesViewModel//automapper ubaci
+                   {
+                       Role = item
+                   });
+               }*/
+            return result;
+        }
+        public async Task<UpdateUserRolesViewModel> UpdateUserRoles(UpdateUserRolesViewModel vm)
+        {
+            var user = await _userManager.FindByIdAsync(vm.Id);
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+            var selectedRoles = vm.AllRoles
+                .Where(r => vm.SelectedRoleIds.Contains(r.Id))
+                .Select(r => r.Name);
+            await _userManager.AddToRolesAsync(user, selectedRoles);
             return vm;
         }
 

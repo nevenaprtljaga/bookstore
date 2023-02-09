@@ -42,8 +42,10 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Book.Id">
                                     <i class="bi bi-eye-fill"></i> Details
                                 </a>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Book.Id"><i class="bi bi-trash"></i>Delete </a>
-
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
+                                {
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Book.Id"><i class="bi bi-trash"></i>Delete </a>
+                                }
                             </p>
                         </div>
                     </div>
@@ -52,4 +54,7 @@
         </div>
     }
 </div>
-@await Html.PartialAsync("_CreateItem", "books")
+@if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
+{
+    @await Html.PartialAsync("_CreateItem", "books")
+}
