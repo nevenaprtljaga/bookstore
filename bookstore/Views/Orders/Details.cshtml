@@ -1,30 +1,50 @@
-﻿@model OrdersViewModel
+﻿@model IEnumerable<OrdersViewModel>
 
 @{
-    ViewData["Title"] = "Details for order";
+    ViewData["Title"] = "List of Orders";
 }
 
-<div class="row text">
-    <div class="col-md-8 offset-2">
-        <p>
-            <h1>Details for Order with ID = @Model.Order.Id</h1>
-        </p>
-        <div class="row">
-            <div class="col-md-8 offset-1">
-                <div class="form-group">
-                    <label asp-for="Order.Date" class="control-label"></label>
-                    <input asp-for="Order.Date" class="form-control" readonly />
-                    <span asp-validation-for="Order.Date" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Order.ApplicationUserId" class="control-label"></label>
-                    <input asp-for="Order.ApplicationUserId" class="form-control" readonly />
-                    <span asp-validation-for="Order.ApplicationUserId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                   <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
-                </div>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th>@Html.DisplayNameFor(model => model.Order.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.Order.Date)</th>
+                    <th>@Html.DisplayNameFor(model => model.ApplicationUser.FullName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Order.TypeOfOrder)</th>
+                    <th>@Html.DisplayNameFor(model => model.Book.Price)</th>
+                    <th>@Html.DisplayNameFor(model => model.Book.Title)</th>
+
+                   
+                <tr />
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="text-center">
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Order.Id)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Order.Date)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.FullName)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Order.TypeOfOrder)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Book.Price)
+                        </td>
+                        <td class="align-middle">
+                            @Html.DisplayFor(modelItem => item.Book.Title)
+                        </td>
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

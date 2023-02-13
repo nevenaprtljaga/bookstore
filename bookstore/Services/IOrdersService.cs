@@ -1,10 +1,12 @@
-﻿using bookstore.Models;
+﻿using bookstore.Entities;
+using bookstore.Models;
 
 namespace bookstore.Services
 {
     public interface IOrdersService
     {
         Task<IEnumerable<OrdersViewModel>> GetAll();
-        Task<OrdersViewModel> GetByIdAsync(int id);
+        Task<IEnumerable<OrdersViewModel>> GetByIdAsync(int id);
+        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string TypeOfOrder);
     }
 }

@@ -22,7 +22,6 @@ namespace bookstore
                 u.ToTable("User");
                 u.HasKey("Id");
                 u.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
-                //u.HasMany<Book>().WithOne().HasForeignKey(b => b.UserId).IsRequired(false);
             });
 
             builder.Entity<Order>(o =>
@@ -30,15 +29,14 @@ namespace bookstore
                 o.ToTable("Order");
                 o.HasKey("Id");
                 o.HasOne<ApplicationUser>().WithMany().HasForeignKey(o => o.ApplicationUserId).IsRequired();
-                //o.HasMany<Book>().WithOne().HasForeignKey(b => b.OrderId).IsRequired(false);
             });
 
             builder.Entity<Author>(a =>
             {
                 a.ToTable("Author");
                 a.HasKey("Id");
-                //a.HasMany<Book>().WithOne().HasForeignKey(b => b.AuthorId).IsRequired();
             });
+
 
             builder.Entity<Book>(b =>
             {
@@ -48,6 +46,7 @@ namespace bookstore
                 b.HasOne<ApplicationUser>().WithMany().HasForeignKey(b => b.ApplicationUserId).IsRequired(false);
                 b.HasOne<Order>().WithMany().HasForeignKey(b => b.OrderId).IsRequired(false);
                 b.HasOne<BookGenre>().WithMany().HasForeignKey(b => b.BookGenreId).IsRequired();
+
             });
 
             builder.Entity<Role>(r =>
@@ -55,14 +54,12 @@ namespace bookstore
                 r.ToTable("Role");
                 r.HasKey(rc => rc.Id);
                 r.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.RoleId).IsRequired();
-                //r.HasMany<User>().WithOne().HasForeignKey(u => u.RoleId).IsRequired();
             });
 
             builder.Entity<BookGenre>(bg =>
             {
                 bg.ToTable("BookGenre");
                 bg.HasKey("Id");
-                //bg.HasMany<Book>().WithOne().HasForeignKey(b => b.BookGenreId).IsRequired();
             });
 
 
@@ -106,6 +103,19 @@ namespace bookstore
                 b.ToTable("RoleClaim");
             });
 
+            builder.Entity<BookInfo>(bi =>
+            {
+                bi.ToTable("BookInfo");
+                bi.HasKey("Id");
+            });
+
+
+            builder.Entity<OrderItem>(oi =>
+            {
+                oi.ToTable("OrderItem");
+                oi.HasOne<Book>().WithMany().HasForeignKey(b => b.BookId).IsRequired();
+                oi.HasOne<Order>().WithMany().HasForeignKey(o => o.OrderId).IsRequired();
+            });
 
         }
 
@@ -113,11 +123,13 @@ namespace bookstore
         {
 
         }
-        /*   public DbSet<ApplicationUser> Users { get; set; }*/
-        public DbSet<Order> Orders { get; set; }
+
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
-        /*   public DbSet<Role> Roles { get; set; }*/
         public DbSet<BookGenre> BookGenres { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public DbSet<BookInfo> BookInfos { get; set; }
     }
 }

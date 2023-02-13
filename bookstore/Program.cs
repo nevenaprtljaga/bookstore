@@ -16,13 +16,15 @@ builder.Services.AddScoped<IBookGenresService, BookGenresService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.ConfigureApplicationCookie(o => o.LoginPath = "/Authentication/Login");
+builder.Services.AddScoped(ShoppingCart.GetShoppingCart);
+
 
 builder.Services.AddIdentity<ApplicationUser, Role>(config =>
 {
     config.User.RequireUniqueEmail = true;
 })
     .AddEntityFrameworkStores<AppDbContext>();
-
+builder.Services.AddSession();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +39,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
 app.UseAuthorization();
 
 using (var scope = app.Services.CreateScope())
