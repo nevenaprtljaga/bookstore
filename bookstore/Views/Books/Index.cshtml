@@ -28,12 +28,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <p class="card-text"><b>Price: </b>@item.Book.Price din.</p>
                             <p class="card-text"><b>Year of publication: </b>@item.Book.YearOfPublication</p>
                             <p class="card-text"><b>Author: </b>@item.Author?.FullName</p>
                             <p class="card-text"><b>Book genre: </b>@item.BookGenre?.Name</p>
-                            <p class="card-text"><b>OrderId: </b>@item.Book.OrderId</p>
-                            <p class="card-text"><b>UserId: </b>@item.ApplicationUser?.UserName</p>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -45,6 +42,15 @@
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
                                 {
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Book.Id"><i class="bi bi-trash"></i>Delete </a>
+                                }
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                                {
+                                    <a class="btn btn-success text-white float-end"
+                                        asp-controller="Orders"
+                                        asp-action="AddItemToShoppingCart"
+                                        asp-route-id="@item.Book.Id">
+                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Book.Price.ToString("c"))
+                                    </a>
                                 }
                             </p>
                         </div>

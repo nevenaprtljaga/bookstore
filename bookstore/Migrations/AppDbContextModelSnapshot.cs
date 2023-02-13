@@ -22,7 +22,7 @@ namespace bookstore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("bookstore.Entities.ApplicationRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,76 +45,6 @@ namespace bookstore.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RoleClaim", (string)null);
-                });
-
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserClaim", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AccountClaim", (string)null);
-                });
-
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserLogin", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AccountLogin", (string)null);
-                });
-
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserToken", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId", "LoginProvider", "Name");
-
-                    b.ToTable("AccountToken", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Entities.ApplicationUser", b =>
@@ -184,6 +114,76 @@ namespace bookstore.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("User", (string)null);
+                });
+
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AccountClaim", (string)null);
+                });
+
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserLogin", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AccountLogin", (string)null);
+                });
+
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserToken", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AccountToken", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Entities.Author", b =>
@@ -273,6 +273,30 @@ namespace bookstore.Migrations
                     b.ToTable("BookGenre", (string)null);
                 });
 
+            modelBuilder.Entity("bookstore.Entities.BookInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AmountPurchase")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AmountRent")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookInfo", (string)null);
+                });
+
             modelBuilder.Entity("bookstore.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -291,11 +315,38 @@ namespace bookstore.Migrations
                     b.Property<int>("TotalPrice")
                         .HasColumnType("int");
 
+                    b.Property<string>("TypeOfOrder")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Order", (string)null);
+                });
+
+            modelBuilder.Entity("bookstore.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("bookstore.Entities.Role", b =>
@@ -325,6 +376,31 @@ namespace bookstore.Migrations
                     b.ToTable("Role", (string)null);
                 });
 
+            modelBuilder.Entity("bookstore.Entities.ShoppingCartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShoppingCartId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("ShoppingCartItems", (string)null);
+                });
+
             modelBuilder.Entity("bookstore.Entities.UserRole", b =>
                 {
                     b.Property<string>("UserId")
@@ -340,7 +416,7 @@ namespace bookstore.Migrations
                     b.ToTable("AccountRole", (string)null);
                 });
 
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationRoleClaim", b =>
+            modelBuilder.Entity("bookstore.Entities.ApplicationRoleClaim", b =>
                 {
                     b.HasOne("bookstore.Entities.Role", null)
                         .WithMany()
@@ -349,7 +425,7 @@ namespace bookstore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserClaim", b =>
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserClaim", b =>
                 {
                     b.HasOne("bookstore.Entities.ApplicationUser", null)
                         .WithMany()
@@ -358,7 +434,7 @@ namespace bookstore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserLogin", b =>
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserLogin", b =>
                 {
                     b.HasOne("bookstore.Entities.ApplicationUser", null)
                         .WithMany()
@@ -367,7 +443,7 @@ namespace bookstore.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Infrastructure.Identity.ApplicationUserToken", b =>
+            modelBuilder.Entity("bookstore.Entities.ApplicationUserToken", b =>
                 {
                     b.HasOne("bookstore.Entities.ApplicationUser", null)
                         .WithMany()
@@ -399,6 +475,17 @@ namespace bookstore.Migrations
                         .HasForeignKey("OrderId");
                 });
 
+            modelBuilder.Entity("bookstore.Entities.BookInfo", b =>
+                {
+                    b.HasOne("bookstore.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
             modelBuilder.Entity("bookstore.Entities.Order", b =>
                 {
                     b.HasOne("bookstore.Entities.ApplicationUser", null)
@@ -406,6 +493,32 @@ namespace bookstore.Migrations
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("bookstore.Entities.OrderItem", b =>
+                {
+                    b.HasOne("bookstore.Entities.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bookstore.Entities.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("bookstore.Entities.ShoppingCartItem", b =>
+                {
+                    b.HasOne("bookstore.Entities.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("bookstore.Entities.UserRole", b =>
