@@ -40,8 +40,11 @@
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Update" class="btn btn-outline-success float-end" />
+                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
                             <a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
-                        </div>
+                            }
+                    </div>
                 </form>
             </div>
         </div>

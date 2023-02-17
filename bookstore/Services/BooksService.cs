@@ -66,10 +66,15 @@ namespace bookstore.Services
                     author => author.Id,
                     (book, author) => new { book, author }
                 ).Join(
+                    _context.BookInfos,
+                    o => o.book.Id,
+                    bookInfo => bookInfo.BookId,
+                    (o, bookInfo) => new { o.book, bookInfo, o.author }
+                ).Join(
                     _context.BookGenres,
-                    o => o.book.BookGenreId,
+                    n => n.book.BookGenreId,
                     bookGenre => bookGenre.Id,
-                    (o, bookGenre) => new BooksViewModel { Book = o.book, BookGenre = bookGenre, Author = o.author }
+                    (n, bookGenre) => new BooksViewModel { Book = n.book, BookGenre = bookGenre, Author = n.author, BookInfo = n.bookInfo }
                     ).
                 ToListAsync();
 

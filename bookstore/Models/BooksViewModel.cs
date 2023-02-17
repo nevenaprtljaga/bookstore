@@ -6,7 +6,7 @@ namespace bookstore.Models
     {
         public Book Book { get; set; }
         public Author Author { get; set; }
-        public BookGenre BookGenre{ get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+        public BookGenre BookGenre { get; set; }
+        public BookInfo BookInfo { get; set; }
     }
 }

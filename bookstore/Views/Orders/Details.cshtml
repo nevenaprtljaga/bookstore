@@ -12,7 +12,6 @@
                     <th>@Html.DisplayNameFor(model => model.Order.Id)</th>
                     <th>@Html.DisplayNameFor(model => model.Order.Date)</th>
                     <th>@Html.DisplayNameFor(model => model.ApplicationUser.FullName)</th>
-                    <th>@Html.DisplayNameFor(model => model.Order.TypeOfOrder)</th>
                     <th>@Html.DisplayNameFor(model => model.Book.Price)</th>
                     <th>@Html.DisplayNameFor(model => model.Book.Title)</th>
 
@@ -31,9 +30,6 @@
                         </td>
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.ApplicationUser.FullName)
-                        </td>
-                        <td class="align-middle">
-                            @Html.DisplayFor(modelItem => item.Order.TypeOfOrder)
                         </td>
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.Book.Price)

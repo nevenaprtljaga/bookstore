@@ -1,6 +1,7 @@
 ﻿using bookstore.Entities;
 using bookstore.Models;
 using bookstore.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -21,6 +22,8 @@ namespace bookstore.Controllers
             _shoppingCart = shoppingCart;
             _userManager = userManager;
         }
+
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Index()
         {
             var allOrders = await _ordersService.GetAll();
@@ -69,9 +72,9 @@ namespace bookstore.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var userId = claim.Value;
             string type = "Purchase";
-            // var totalPrice = _shoppingCart.GetShoppingCartTotal();
+            int totalPrice = (int)_shoppingCart.GetShoppingCartTotal();
 
-            await _ordersService.StoreOrderAsync(items, userId, type);
+            await _ordersService.StoreOrderAsync(items, userId, type, totalPrice);
             await _shoppingCart.ClearShoppingCartAsync();
 
             return View("OrderCompleted");

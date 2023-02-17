@@ -57,7 +57,7 @@ namespace bookstore.Controllers
             }
             return View(userDetails);
         }
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Update(string id)
         {
             var userDetails = await _service.GetByIdAsync(id);
@@ -76,7 +76,7 @@ namespace bookstore.Controllers
                 return View(usersViewModel);
             }
             await _service.UpdateAsync(id, usersViewModel);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Update));
         }
 
         [Authorize(Roles = "Admin")]

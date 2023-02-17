@@ -26,29 +26,37 @@ namespace bookstore.Entities
         public void AddItemToCart(Book Book)
         {
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Book.Id == Book.Id && n.ShoppingCartId == ShoppingCartId);
-            if (shoppingCartItem == null)
+            var bookInfo = _context.BookInfos.FirstOrDefault(n => n.BookId == Book.Id);
+            if (bookInfo.AmountPurchase > 0)
             {
-                shoppingCartItem = new ShoppingCartItem()
+                if (shoppingCartItem == null)
                 {
-                    ShoppingCartId = ShoppingCartId,
-                    Book = Book,
-                    Amount = 1
-                };
+                    shoppingCartItem = new ShoppingCartItem()
+                    {
+                        ShoppingCartId = ShoppingCartId,
+                        Book = Book,
+                        Amount = 1
+                    };
 
-                _context.ShoppingCartItems.Add(shoppingCartItem);
-            }
-            else
-            {
-                shoppingCartItem.Amount++;
+                    _context.ShoppingCartItems.Add(shoppingCartItem);
+                }
+                else
+                {
+                    shoppingCartItem.Amount++;
+                }
+                if (bookInfo != null)
+                {
+                    bookInfo.AmountPurchase = bookInfo.AmountPurchase - 1;
+                }
             }
             _context.SaveChanges();
         }
 
 
-        public void RemoveItemFromCart(Book book)
+        public void RemoveItemFromCart(Book Book)
         {
-            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Book.Id == book.Id && n.ShoppingCartId == ShoppingCartId);
-
+            var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Book.Id == Book.Id && n.ShoppingCartId == ShoppingCartId);
+            var bookInfo = _context.BookInfos.FirstOrDefault(n => n.BookId == Book.Id);
             if (shoppingCartItem != null)
             {
                 if (shoppingCartItem.Amount > 1)
@@ -59,6 +67,11 @@ namespace bookstore.Entities
                 {
                     _context.ShoppingCartItems.Remove(shoppingCartItem);
                 }
+            }
+
+            if (bookInfo != null)
+            {
+                bookInfo.AmountPurchase = bookInfo.AmountPurchase + 1;
             }
             _context.SaveChanges();
         }

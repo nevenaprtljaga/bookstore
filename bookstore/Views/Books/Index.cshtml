@@ -36,22 +36,32 @@
                     <div class="col-md-12">
                         <div class="card-footer ">
                             <p class="card-text">
-                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Book.Id">
-                                    <i class="bi bi-eye-fill"></i> Details
-                                </a>
+                                
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
                                 {
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Book.Id"><i class="bi bi-trash"></i>Delete </a>
                                 }
-                                @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Customer") && item.BookInfo.AmountPurchase > 0)
                                 {
-                                    <a class="btn btn-success text-white float-end"
+                                    <a class="btn btn-success text-white float"
                                         asp-controller="Orders"
                                         asp-action="AddItemToShoppingCart"
                                         asp-route-id="@item.Book.Id">
                                         <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Book.Price.ToString("c"))
                                     </a>
                                 }
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Customer") && item.BookInfo.AmountRent > 0)
+                                {
+                                    <a class="btn btn-success text-white float"
+                                        asp-controller="Orders"
+                                        asp-action="AddItemToShoppingCart"
+                                        asp-route-id="@item.Book.Id">
+                                        <i class="bi bi-cart-plus"></i> Rent @*nesto smisliti za cenu*@
+                                    </a>
+                                }
+                                <a class="btn btn-outline-primary float-end" asp-action="Details" asp-route-id="@item.Book.Id">
+                                    <i class="bi bi-eye-fill"></i> Details
+                                </a>
                             </p>
                         </div>
                     </div>

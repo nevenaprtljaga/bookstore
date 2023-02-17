@@ -7,6 +7,6 @@ namespace bookstore.Services
     {
         Task<IEnumerable<OrdersViewModel>> GetAll();
         Task<IEnumerable<OrdersViewModel>> GetByIdAsync(int id);
-        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string TypeOfOrder);
+        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string TypeOfOrder, int TotalPrice);
     }
 }
