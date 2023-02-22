@@ -79,5 +79,34 @@ namespace bookstore.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        public async Task StoreOrderAsync(List<RentCartItem> items, string userId, string TypeOfOrder, int TotalPrice)
+        {
+            var order = new Order()
+            {
+                ApplicationUserId = userId,
+                TypeOfOrder = TypeOfOrder,
+                Date = DateTime.Now,
+                TotalPrice = TotalPrice
+
+            };
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in items)
+            {
+                while (item.Amount > 0)
+                {
+                    var orderItem = new OrderItem()
+                    {
+                        BookId = item.Book.Id,
+                        OrderId = order.Id
+                    };
+                    item.Amount--;
+                    await _context.OrderItems.AddAsync(orderItem);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }

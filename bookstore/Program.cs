@@ -17,6 +17,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.ConfigureApplicationCookie(o => o.LoginPath = "/Authentication/Login");
 builder.Services.AddScoped(ShoppingCart.GetShoppingCart);
+builder.Services.AddScoped(RentCart.GetRentCart);
 
 
 builder.Services.AddIdentity<ApplicationUser, Role>(config =>

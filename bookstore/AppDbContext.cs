@@ -7,7 +7,7 @@ namespace bookstore
     public class AppDbContext : IdentityDbContext<
         ApplicationUser, Role, string,
         ApplicationUserClaim, UserRole, ApplicationUserLogin,
-        ApplicationRoleClaim, ApplicationUserToken>// IIdentityDbContext
+        ApplicationRoleClaim, ApplicationUserToken>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -131,5 +131,6 @@ namespace bookstore
         public DbSet<Order> Orders { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
         public DbSet<BookInfo> BookInfos { get; set; }
+        public DbSet<RentCartItem> RentCartItems { get; set; }
     }
 }

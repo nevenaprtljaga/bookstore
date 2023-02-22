@@ -36,6 +36,7 @@
                     <div class="col-md-12">
                         <div class="card-footer">
                             <p class="card-text">
+                                
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Librarian"))
                                 {
                                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Book.Id"><i class="bi bi-trash"></i>Delete </a>
@@ -53,7 +54,7 @@
                                 {
                                     <a class="btn btn-success text-white float"
                                         asp-controller="Orders"
-                                        asp-action="AddItemToShoppingCart"
+                                        asp-action="AddItemToRentCart"
                                         asp-route-id="@item.Book.Id">
                                         <i class="bi bi-cart-plus"></i> Rent @*nesto smisliti za cenu*@
                                     </a>
