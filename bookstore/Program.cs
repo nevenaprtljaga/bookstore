@@ -47,7 +47,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    SeedData.Seed(services);
+    //SeedData.Seed(services);
 }
 app.MapControllerRoute(
     name: "default",

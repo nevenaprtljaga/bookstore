@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\SeedData1.cs" />
     <Compile Remove="Models\Author.cs" />
     <Compile Remove="Views\Authors\Class.cs" />
   </ItemGroup>

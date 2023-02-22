@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*using Microsoft.EntityFrameworkCore;
 
 namespace bookstore.Entities
 {
@@ -10,16 +10,16 @@ namespace bookstore.Entities
                  serviceProvider.GetRequiredService<
                      DbContextOptions<AppDbContext>>()))
             {
-                /*    if (context.Roles.Any())
-                    {
-                        return;
-                    }
-    */
+                if (context.Roles.Any())
+                {
+                    return;
+                }
+
                 context.Roles.AddRange(
 
-                /*   new Role
+                   new Role
                    {
-                       Name = "Proba",
+                       Name = "Admin",
 
                    },
                     new Role
@@ -30,11 +30,33 @@ namespace bookstore.Entities
                     {
                         Name = "Librarian",
 
-                    }*/
+                    }
 
+                );
+                if (context.Authors.Any())
+                {
+                    return;   
+                }
+                context.Authors.AddRange(
+                    new Author
+                    {
+                        FullName = "Fredrik Backman",
+                        DateOfBirth = DateTime.Parse("1981-6-2")
+                    },
+                    new Author
+                    {
+                        FullName = "Lev Tolstoy",
+                        DateOfBirth = DateTime.Parse("1828-9-9")
+                    },
+                    new Author
+                    {
+                        FullName = "Oscar Wilde",
+                        DateOfBirth = DateTime.Parse("1854-10-16")
+                    }
                 );
                 context.SaveChanges();
             }
         }
     }
 }
+*/
