@@ -76,7 +76,7 @@ namespace bookstore.Controllers
                 return View(usersViewModel);
             }
             await _service.UpdateAsync(id, usersViewModel);
-            return RedirectToAction(nameof(Update));
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = "Admin")]

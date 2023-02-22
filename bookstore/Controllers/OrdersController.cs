@@ -14,13 +14,15 @@ namespace bookstore.Controllers
         private readonly IBooksService _booksService;
         private readonly ShoppingCart _shoppingCart;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly AppDbContext _context;
 
-        public OrdersController(IOrdersService ordersService, IBooksService booksService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager)
+        public OrdersController(IOrdersService ordersService, IBooksService booksService, ShoppingCart shoppingCart, UserManager<ApplicationUser> userManager, AppDbContext context)
         {
             _ordersService = ordersService;
             _booksService = booksService;
             _shoppingCart = shoppingCart;
             _userManager = userManager;
+            _context = context;
         }
 
         [Authorize(Roles = "Customer")]
@@ -74,6 +76,13 @@ namespace bookstore.Controllers
             string type = "Purchase";
             int totalPrice = (int)_shoppingCart.GetShoppingCartTotal();
 
+
+            foreach (var item in items)
+            {
+                var bookInfo = _context.BookInfos.FirstOrDefault(n => n.BookId == item.Book.Id);
+                bookInfo.AmountPurchase -= item.Amount;
+            }
+            _context.SaveChanges();
             await _ordersService.StoreOrderAsync(items, userId, type, totalPrice);
             await _shoppingCart.ClearShoppingCartAsync();
 

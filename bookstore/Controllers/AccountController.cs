@@ -1,8 +1,10 @@
 ﻿using bookstore.Entities;
 using bookstore.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace bookstore.Controllers
@@ -120,6 +122,48 @@ namespace bookstore.Controllers
 
             return View("RegisterCompleted");
         }
+
+
+
+        [Authorize]
+        public async Task<IActionResult> Update(string id)
+        {
+            var userDetails = await _userManager.Users.FirstOrDefaultAsync(n => n.Id == id);
+            var result = new ApplicationUser()
+            {
+                Id = userDetails.Id,
+                FullName = userDetails.FullName,
+                Email = userDetails.Email,
+                UserName = userDetails.UserName,
+                PhoneNumber = userDetails.PhoneNumber,
+
+            };
+            if (userDetails == null)
+            {
+                return View("NotFound");
+            }
+            return View(result);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(string id, ApplicationUser ApplicationUser)
+        {
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            user.UserName = ApplicationUser.UserName;
+            user.FullName = ApplicationUser.FullName;
+            user.Email = ApplicationUser.Email;
+            user.PhoneNumber = ApplicationUser.PhoneNumber;
+            user.EmailConfirmed = ApplicationUser.EmailConfirmed;
+            if (!ModelState.IsValid)
+            {
+                return View(ApplicationUser);
+            }
+            await _userManager.UpdateAsync(user);
+
+            return RedirectToAction(nameof(Update));
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()

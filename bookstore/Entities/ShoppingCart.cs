@@ -23,6 +23,8 @@ namespace bookstore.Entities
 
             return new ShoppingCart(context) { ShoppingCartId = cartId };
         }
+
+
         public void AddItemToCart(Book Book)
         {
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Book.Id == Book.Id && n.ShoppingCartId == ShoppingCartId);
@@ -39,14 +41,15 @@ namespace bookstore.Entities
                     };
 
                     _context.ShoppingCartItems.Add(shoppingCartItem);
+
+                }
+                else if (shoppingCartItem.Amount == bookInfo.AmountPurchase)
+                {
+
                 }
                 else
                 {
                     shoppingCartItem.Amount++;
-                }
-                if (bookInfo != null)
-                {
-                    bookInfo.AmountPurchase = bookInfo.AmountPurchase - 1;
                 }
             }
             _context.SaveChanges();
@@ -69,10 +72,10 @@ namespace bookstore.Entities
                 }
             }
 
-            if (bookInfo != null)
+            /*if (bookInfo != null)
             {
                 bookInfo.AmountPurchase = bookInfo.AmountPurchase + 1;
-            }
+            }*/
             _context.SaveChanges();
         }
 
