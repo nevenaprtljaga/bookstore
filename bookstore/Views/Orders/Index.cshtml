@@ -20,7 +20,8 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-                {
+                {   
+                    @if(item.ApplicationUser.UserName == User.Identity.Name){
                     <tr class="text-center">
                         <td class="align-middle">
                             @Html.DisplayFor(modelItem => item.Order.Id)
@@ -41,6 +42,7 @@
                             <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Order.Id"><i class="bi bi-eye"></i>See all books </a>
                         </td>
                     </tr>
+                    }
                 }
             </tbody>
         </table>
