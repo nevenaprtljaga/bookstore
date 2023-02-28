@@ -79,7 +79,7 @@ namespace bookstore.Entities
             return RentCartItems ?? (RentCartItems = _context.RentCartItems.Where(n => n.RentCartId == RentCartId).Include(n => n.Book).ToList());
         }
 
-        public double GetRentCartTotal() => _context.RentCartItems.Where(n => n.RentCartId == RentCartId).Select(n => n.Book.Price * n.Amount).Sum();
+        public double GetRentCartTotal() => _context.RentCartItems.Where(n => n.RentCartId == RentCartId).Select(n => n.Book.Price * n.Amount * 0.1).Sum();
 
         public async Task ClearRentCartAsync()
         {

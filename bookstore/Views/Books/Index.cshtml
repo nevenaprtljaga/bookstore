@@ -47,7 +47,7 @@
                                         asp-controller="Orders"
                                         asp-action="AddItemToShoppingCart"
                                         asp-route-id="@item.Book.Id">
-                                        <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Book.Price.ToString("c"))
+                                        <i class="bi bi-cart-plus"></i> Buy @item.Book.Price.ToString("c")
                                     </a>
                                 }
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Customer") && item.BookInfo.AmountRent > 0)
@@ -56,7 +56,7 @@
                                         asp-controller="Orders"
                                         asp-action="AddItemToRentCart"
                                         asp-route-id="@item.Book.Id">
-                                        <i class="bi bi-cart-plus"></i> Rent @*nesto smisliti za cenu*@
+                                        <i class="bi bi-cart-plus"></i> Rent @((item.Book.Price * 0.1).ToString("c")
                                     </a>
                                 }
                                 <a class="btn btn-outline-primary float-end" asp-action="Details" asp-route-id="@item.Book.Id">
