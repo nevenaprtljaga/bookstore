@@ -9,8 +9,9 @@ namespace bookstore.Models
         public string FullName { get; set; }
 
         [Display(Name = "Email address")]
-        [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$", ErrorMessage = "Not a valid email.")]
         [Required(ErrorMessage = "Email address is required")]
+        [RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*\\.([a-z]{2,4})$", ErrorMessage = "Not a valid email.")]
+
         public string EmailAddress { get; set; }
 
         [Display(Name = "Username")]

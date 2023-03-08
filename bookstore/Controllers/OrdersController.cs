@@ -131,9 +131,9 @@ namespace bookstore.Controllers
         public async Task<IActionResult> CompleteRentOrder()
         {
             var items = _rentCart.GetRentCartItems();
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var userId = claim.Value;
+            var claimsIdentity = (ClaimsIdentity?)User.Identity;
+            var claim = claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = claim?.Value;
             string type = "Rent";
             int totalPrice = (int)_rentCart.GetRentCartTotal();
 

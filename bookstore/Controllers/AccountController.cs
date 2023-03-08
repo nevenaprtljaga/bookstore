@@ -49,22 +49,28 @@ namespace bookstore.Controllers
                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                     new ClaimsPrincipal(identity));
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, false);
-
-                if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
+                if (user.ChangedPassword == false)
                 {
-                    return RedirectToAction("Index", "Users");
-                }
-                else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Librarian"))
-                {
-                    return RedirectToAction("Index", "Authors");
-                }
-                else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Customer"))
-                {
-                    return RedirectToAction("Index", "Books");
+                    return RedirectToAction("ChangePassword", new { id = user.Id });
                 }
                 else
                 {
-                    return RedirectToAction("Index", "BookGenres");
+                    if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        return RedirectToAction("Index", "Users");
+                    }
+                    else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Librarian"))
+                    {
+                        return RedirectToAction("Index", "Authors");
+                    }
+                    else if (result.Succeeded && await _userManager.IsInRoleAsync(user, "Customer"))
+                    {
+                        return RedirectToAction("Index", "Books");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "BookGenres");
+                    }
                 }
             }
             else
@@ -83,8 +89,10 @@ namespace bookstore.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-
-
+            if (registerViewModel.EmailAddress == null)
+            {
+                return View(registerViewModel);
+            }
             var user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
             if (user != null)
             {
@@ -129,6 +137,10 @@ namespace bookstore.Controllers
         public async Task<IActionResult> Update(string id)
         {
             var userDetails = await _userManager.Users.FirstOrDefaultAsync(n => n.Id == id);
+            if (userDetails == null)
+            {
+                return View("NotFound");
+            }
             var result = new ApplicationUser()
             {
                 Id = userDetails.Id,
@@ -138,10 +150,7 @@ namespace bookstore.Controllers
                 PhoneNumber = userDetails.PhoneNumber,
 
             };
-            if (userDetails == null)
-            {
-                return View("NotFound");
-            }
+
             return View(result);
 
         }
@@ -175,6 +184,47 @@ namespace bookstore.Controllers
         public IActionResult AccessDenied(string ReturnUrl)
         {
             return View();
+        }
+
+        public IActionResult ChangePassword(string id)
+        {
+            ChangePasswordViewModel vm = new ChangePasswordViewModel();
+            vm.UserId = id;
+            return View(vm);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(string id, ChangePasswordViewModel model)
+        {
+            model.UserId = id;
+
+            if (ModelState.IsValid) //znaci ovde ovaj model nesto ne dobija lepo id usera, pa moram ja ponovo da mu kazem
+                                    //odnosno on dobija (u nekom momentu je dobijao, sad ne mogu da ga namestim da dobija???),
+                                    //ali modelstate.isvalid bude false ako nije required i viewmodelu, ako stavim tamo znak pitanja onda ovaj user dole bude null jer kao nema id.. ne znam
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
+                if (user != null)
+                {
+                    IdentityResult result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        user.ChangedPassword = true;
+                        await _userManager.UpdateAsync(user);
+                        return RedirectToAction("Index", "Books");
+                    }
+                    else
+                    {
+                        TempData["Error"] = string.Join("\t\n", result.Errors.Select(x => x.Description));
+                        return View(model);
+                    }
+                }
+
+                return RedirectToAction("Index", "Books");
+
+            }
+
+            return View(model);
         }
 
     }
