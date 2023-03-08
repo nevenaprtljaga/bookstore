@@ -200,8 +200,8 @@ namespace bookstore.Controllers
             model.UserId = id;
 
             if (ModelState.IsValid) //znaci ovde ovaj model nesto ne dobija lepo id usera, pa moram ja ponovo da mu kazem
-                                    //odnosno on dobija (u nekom momentu je dobijao, sad ne mogu da ga namestim da dobija???),
-                                    //ali modelstate.isvalid bude false ako nije required i viewmodelu, ako stavim tamo znak pitanja onda ovaj user dole bude null jer kao nema id.. ne znam
+                                    //odnosno on dobija (ima user id kada se sifre ne poklapaju, nema user id kad su sifre ok??),
+                                    //ali modelstate.isvalid bude false ako nije required u viewmodelu, ako stavim tamo znak pitanja onda ovaj user dole bude null jer kao nema id.. ne znam
             {
                 ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
                 if (user != null)
