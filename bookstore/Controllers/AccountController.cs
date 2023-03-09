@@ -26,13 +26,21 @@ namespace bookstore.Controllers
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            try
+            {
+                ViewData["ReturnUrl"] = returnUrl;
+                return View();
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -134,9 +142,10 @@ namespace bookstore.Controllers
 
 
         [Authorize]
-        public async Task<IActionResult> Update(string id)
+        public async Task<IActionResult> Update()
         {
-            var userDetails = await _userManager.Users.FirstOrDefaultAsync(n => n.Id == id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userDetails = await _userManager.Users.FirstOrDefaultAsync(n => n.Id == userId);
             if (userDetails == null)
             {
                 return View("NotFound");
@@ -156,9 +165,10 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(string id, ApplicationUser ApplicationUser)
+        public async Task<IActionResult> Update(ApplicationUser ApplicationUser)
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ApplicationUser user = await _userManager.FindByIdAsync(userId);
             user.UserName = ApplicationUser.UserName;
             user.FullName = ApplicationUser.FullName;
             user.Email = ApplicationUser.Email;
@@ -186,24 +196,25 @@ namespace bookstore.Controllers
             return View();
         }
 
-        public IActionResult ChangePassword(string id)
+        public IActionResult ChangePassword()
         {
             ChangePasswordViewModel vm = new ChangePasswordViewModel();
-            vm.UserId = id;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            vm.UserId = userId;
             return View(vm);
 
         }
 
         [HttpPost]
-        public async Task<ActionResult> ChangePassword(string id, ChangePasswordViewModel model)
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            model.UserId = id;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            model.UserId = userId;
 
-            if (ModelState.IsValid) //znaci ovde ovaj model nesto ne dobija lepo id usera, pa moram ja ponovo da mu kazem
-                                    //odnosno on dobija (ima user id kada se sifre ne poklapaju, nema user id kad su sifre ok??),
-                                    //ali modelstate.isvalid bude false ako nije required u viewmodelu, ako stavim tamo znak pitanja onda ovaj user dole bude null jer kao nema id.. ne znam
+            if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
+                ApplicationUser user = await _userManager.FindByIdAsync(userId);
+
                 if (user != null)
                 {
                     IdentityResult result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
@@ -219,11 +230,8 @@ namespace bookstore.Controllers
                         return View(model);
                     }
                 }
-
                 return RedirectToAction("Index", "Books");
-
             }
-
             return View(model);
         }
 

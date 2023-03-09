@@ -7,16 +7,16 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="Update" asp-route-id="@UserManager.GetUserId(User)"
-           title="Welcome">Welcome @User.Identity.Name!</a>
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Update"
+           title="Update account">Welcome @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="Account" asp-action="ChangePassword" asp-route-id="@UserManager.GetUserId(User)"
-               title="Change Password">Change Password</a>
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="ChangePassword"
+               title="Change password">Change Password</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-controller="Account" asp-action="Logout">
-                <button type="submit" class="nav-link btn btn-link text-info">Logout</button>
+                <button type="submit" class="nav-link btn btn-link text-info" title="Logout">Logout</button>
             </form>
         </li>
     }
@@ -24,11 +24,11 @@
     {
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Account"
-           asp-action="Login">Login</a>
+               title="Login" asp-action="Login">Login</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-controller="Account"
-           asp-action="Register">Register</a>
+               title="Register" asp-action="Register">Register</a>
         </li>
     }
 </ul>
